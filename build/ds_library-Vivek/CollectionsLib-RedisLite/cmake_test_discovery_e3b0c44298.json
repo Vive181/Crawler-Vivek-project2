@@ -1,0 +1,32 @@
+{
+  "tests": 4,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "RedisTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "PrimitiveTypes",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
+          "line": 34
+        },
+        {
+          "name": "IntegerEdgeCases",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
+          "line": 49
+        },
+        {
+          "name": "UserDefinedType",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
+          "line": 60
+        },
+        {
+          "name": "MixedOperations",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
+          "line": 75
+        }
+      ]
+    }
+  ]
+}

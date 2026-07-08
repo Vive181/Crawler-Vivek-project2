@@ -1,0 +1,307 @@
+add_test([=[DynamicArrayPushBackTest.PushBackAddsElementToEmptyArray]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayPushBackTest.PushBackAddsElementToEmptyArray]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayPushBackTest.PushBackAddsElementToEmptyArray]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:43]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayPushBackTest.PushBackTriggersResizeAutomatically]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayPushBackTest.PushBackTriggersResizeAutomatically]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayPushBackTest.PushBackTriggersResizeAutomatically]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:50]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayPushBackTest.PushBackMaintainsOrderOfElements]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayPushBackTest.PushBackMaintainsOrderOfElements]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayPushBackTest.PushBackMaintainsOrderOfElements]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:62]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayInsertTest.InsertElementAtIndex]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayInsertTest.InsertElementAtIndex]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayInsertTest.InsertElementAtIndex]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:75]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayInsertTest.InsertOutOfBoundsThrowsException]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayInsertTest.InsertOutOfBoundsThrowsException]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayInsertTest.InsertOutOfBoundsThrowsException]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:86]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayDeleteTest.DeleteElementAtIndex]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayDeleteTest.DeleteElementAtIndex]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayDeleteTest.DeleteElementAtIndex]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:92]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayDeleteTest.DeleteOutOfBoundsThrowsException]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayDeleteTest.DeleteOutOfBoundsThrowsException]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayDeleteTest.DeleteOutOfBoundsThrowsException]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:103]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.GetRetrievesCorrectElement]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.GetRetrievesCorrectElement]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.GetRetrievesCorrectElement]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:113]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.GetOutOfBoundsThrowsException]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.GetOutOfBoundsThrowsException]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.GetOutOfBoundsThrowsException]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:119]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.SetModifiesExistingElement]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.SetModifiesExistingElement]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.SetModifiesExistingElement]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:137]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.SetDoesNothingForNegativeIndex]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.SetDoesNothingForNegativeIndex]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.SetDoesNothingForNegativeIndex]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:144]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.SetDoesNothingForIndexGreaterThanSize]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.SetDoesNothingForIndexGreaterThanSize]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.SetDoesNothingForIndexGreaterThanSize]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:151]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.PopBackReducesSizeAndRemovesLastElement]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.PopBackReducesSizeAndRemovesLastElement]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.PopBackReducesSizeAndRemovesLastElement]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:161]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.PopBackMultipleTimesEmptiesArray]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.PopBackMultipleTimesEmptiesArray]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.PopBackMultipleTimesEmptiesArray]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:174]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.GetSizeIncreasesWithPushBack]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.GetSizeIncreasesWithPushBack]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.GetSizeIncreasesWithPushBack]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:190]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.GetSizeDecreasesWithPopBack]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.GetSizeDecreasesWithPopBack]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.GetSizeDecreasesWithPopBack]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:196]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.IsEmptyFalseAfterPushBack]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.IsEmptyFalseAfterPushBack]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.IsEmptyFalseAfterPushBack]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:210]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.IsEmptyTrueAfterClear]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.IsEmptyTrueAfterClear]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.IsEmptyTrueAfterClear]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:214]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.ClearEmptiesPopulatedArray]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.ClearEmptiesPopulatedArray]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.ClearEmptiesPopulatedArray]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:222]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.ClearAllowsSubsequentPushBacks]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.ClearAllowsSubsequentPushBacks]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.ClearAllowsSubsequentPushBacks]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:234]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.CopyConstructorCreatesDeepCopy]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.CopyConstructorCreatesDeepCopy]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.CopyConstructorCreatesDeepCopy]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:244]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.CopyConstructorIndependentScaling]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.CopyConstructorIndependentScaling]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.CopyConstructorIndependentScaling]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:262]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.CopyAssignmentCreatesDeepCopy]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.CopyAssignmentCreatesDeepCopy]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.CopyAssignmentCreatesDeepCopy]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:276]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayTest.CopyAssignmentHandlesSelfAssignment]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayTest.CopyAssignmentHandlesSelfAssignment]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayTest.CopyAssignmentHandlesSelfAssignment]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:290]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayGetTest.GetOnEmptyArrayThrowsException]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayGetTest.GetOnEmptyArrayThrowsException]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayGetTest.GetOnEmptyArrayThrowsException]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:125]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayCustomUserTest.GetReturnsCorrectObject]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayCustomUserTest.GetReturnsCorrectObject]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayCustomUserTest.GetReturnsCorrectObject]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:130]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayPopBackTest.PopBackOnEmptyArrayDoesNotCrash]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayPopBackTest.PopBackOnEmptyArrayDoesNotCrash]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayPopBackTest.PopBackOnEmptyArrayDoesNotCrash]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:168]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArraySizeTest.GetSizeIsZeroForNewArray]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArraySizeTest.GetSizeIsZeroForNewArray]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArraySizeTest.GetSizeIsZeroForNewArray]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:185]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayEmptyTest.IsEmptyTrueForNewArray]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayEmptyTest.IsEmptyTrueForNewArray]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayEmptyTest.IsEmptyTrueForNewArray]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:205]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayClearTest.ClearOnEmptyArrayDoesNotCrash]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayClearTest.ClearOnEmptyArrayDoesNotCrash]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayClearTest.ClearOnEmptyArrayDoesNotCrash]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:228]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayCopyConstructorTest.CopyConstructorOnEmptyArrayWorks]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayCopyConstructorTest.CopyConstructorOnEmptyArrayWorks]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayCopyConstructorTest.CopyConstructorOnEmptyArrayWorks]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:254]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayCopyAssignmentTest.CopyAssignmentOverwritesExistingData]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayCopyAssignmentTest.CopyAssignmentOverwritesExistingData]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayCopyAssignmentTest.CopyAssignmentOverwritesExistingData]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:297]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayCustomTypeTest.CanStoreAndRetrieveObjects]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayCustomTypeTest.CanStoreAndRetrieveObjects]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayCustomTypeTest.CanStoreAndRetrieveObjects]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:315]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[DynamicArrayCustomTypeTest.ObjectsAreDeepCopiedDuringResize]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test.exe [==[--gtest_filter=DynamicArrayCustomTypeTest.ObjectsAreDeepCopiedDuringResize]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[DynamicArrayCustomTypeTest.ObjectsAreDeepCopiedDuringResize]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\dynamicArraytesting.cpp:330]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+set(dynamic_array_test_TESTS [==[DynamicArrayPushBackTest.PushBackAddsElementToEmptyArray]==] [==[DynamicArrayPushBackTest.PushBackTriggersResizeAutomatically]==] [==[DynamicArrayPushBackTest.PushBackMaintainsOrderOfElements]==] [==[DynamicArrayInsertTest.InsertElementAtIndex]==] [==[DynamicArrayInsertTest.InsertOutOfBoundsThrowsException]==] [==[DynamicArrayDeleteTest.DeleteElementAtIndex]==] [==[DynamicArrayDeleteTest.DeleteOutOfBoundsThrowsException]==] [==[DynamicArrayTest.GetRetrievesCorrectElement]==] [==[DynamicArrayTest.GetOutOfBoundsThrowsException]==] [==[DynamicArrayTest.SetModifiesExistingElement]==] [==[DynamicArrayTest.SetDoesNothingForNegativeIndex]==] [==[DynamicArrayTest.SetDoesNothingForIndexGreaterThanSize]==] [==[DynamicArrayTest.PopBackReducesSizeAndRemovesLastElement]==] [==[DynamicArrayTest.PopBackMultipleTimesEmptiesArray]==] [==[DynamicArrayTest.GetSizeIncreasesWithPushBack]==] [==[DynamicArrayTest.GetSizeDecreasesWithPopBack]==] [==[DynamicArrayTest.IsEmptyFalseAfterPushBack]==] [==[DynamicArrayTest.IsEmptyTrueAfterClear]==] [==[DynamicArrayTest.ClearEmptiesPopulatedArray]==] [==[DynamicArrayTest.ClearAllowsSubsequentPushBacks]==] [==[DynamicArrayTest.CopyConstructorCreatesDeepCopy]==] [==[DynamicArrayTest.CopyConstructorIndependentScaling]==] [==[DynamicArrayTest.CopyAssignmentCreatesDeepCopy]==] [==[DynamicArrayTest.CopyAssignmentHandlesSelfAssignment]==] [==[DynamicArrayGetTest.GetOnEmptyArrayThrowsException]==] [==[DynamicArrayCustomUserTest.GetReturnsCorrectObject]==] [==[DynamicArrayPopBackTest.PopBackOnEmptyArrayDoesNotCrash]==] [==[DynamicArraySizeTest.GetSizeIsZeroForNewArray]==] [==[DynamicArrayEmptyTest.IsEmptyTrueForNewArray]==] [==[DynamicArrayClearTest.ClearOnEmptyArrayDoesNotCrash]==] [==[DynamicArrayCopyConstructorTest.CopyConstructorOnEmptyArrayWorks]==] [==[DynamicArrayCopyAssignmentTest.CopyAssignmentOverwritesExistingData]==] [==[DynamicArrayCustomTypeTest.CanStoreAndRetrieveObjects]==] [==[DynamicArrayCustomTypeTest.ObjectsAreDeepCopiedDuringResize]==])

@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/projects/Crawler/build/cmake_install.cmake",
+		"D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/cmake_install.cmake",
+		"D:/projects/Crawler/build/_deps/googletest-build/cmake_install.cmake",
+		"D:/projects/Crawler/build/_deps/googletest-build/googlemock/cmake_install.cmake",
+		"D:/projects/Crawler/build/_deps/googletest-build/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

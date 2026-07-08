@@ -1,0 +1,208 @@
+add_test([=[InsertPrimitive.InsertSingleElement]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=InsertPrimitive.InsertSingleElement]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[InsertPrimitive.InsertSingleElement]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:22]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[InsertPrimitive.InsertMultipleElements]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=InsertPrimitive.InsertMultipleElements]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[InsertPrimitive.InsertMultipleElements]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:31]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[InsertPrimitive.UpdateExistingKey]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=InsertPrimitive.UpdateExistingKey]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[InsertPrimitive.UpdateExistingKey]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:42]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[InsertPrimitive.TriggerRehash]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=InsertPrimitive.TriggerRehash]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[InsertPrimitive.TriggerRehash]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:52]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[InsertUserDefined.InsertStudent]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=InsertUserDefined.InsertStudent]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[InsertUserDefined.InsertStudent]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:66]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[HashMapTest.Find]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=HashMapTest.Find]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[HashMapTest.Find]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:89]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[HashMapTest.Contains]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=HashMapTest.Contains]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[HashMapTest.Contains]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:136]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[HashMapTest.Remove]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=HashMapTest.Remove]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[HashMapTest.Remove]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:176]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[SizePrimitive.InitiallyZero]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=SizePrimitive.InitiallyZero]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[SizePrimitive.InitiallyZero]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:213]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[SizePrimitive.AfterInsertions]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=SizePrimitive.AfterInsertions]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[SizePrimitive.AfterInsertions]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:219]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[SizePrimitive.AfterRemoval]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=SizePrimitive.AfterRemoval]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[SizePrimitive.AfterRemoval]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:229]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[SizePrimitive.AfterClear]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=SizePrimitive.AfterClear]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[SizePrimitive.AfterClear]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:240]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[SizeUserDefined.StudentObjects]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=SizeUserDefined.StudentObjects]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[SizeUserDefined.StudentObjects]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:251]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[IsEmptyPrimitive.NewMap]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=IsEmptyPrimitive.NewMap]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[IsEmptyPrimitive.NewMap]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:264]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[IsEmptyPrimitive.AfterInsertion]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=IsEmptyPrimitive.AfterInsertion]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[IsEmptyPrimitive.AfterInsertion]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:270]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[IsEmptyPrimitive.AfterRemoval]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=IsEmptyPrimitive.AfterRemoval]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[IsEmptyPrimitive.AfterRemoval]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:278]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[IsEmptyPrimitive.AfterClear]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=IsEmptyPrimitive.AfterClear]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[IsEmptyPrimitive.AfterClear]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:288]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[IsEmptyUserDefined.StudentMap]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=IsEmptyUserDefined.StudentMap]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[IsEmptyUserDefined.StudentMap]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:299]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[ClearPrimitive.ClearSingleElement]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=ClearPrimitive.ClearSingleElement]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[ClearPrimitive.ClearSingleElement]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:315]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[ClearPrimitive.ClearMultipleElements]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=ClearPrimitive.ClearMultipleElements]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[ClearPrimitive.ClearMultipleElements]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:327]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[ClearPrimitive.ClearAlreadyEmptyMap]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=ClearPrimitive.ClearAlreadyEmptyMap]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[ClearPrimitive.ClearAlreadyEmptyMap]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:344]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[ClearPrimitive.InsertAfterClear]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=ClearPrimitive.InsertAfterClear]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[ClearPrimitive.InsertAfterClear]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:353]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+add_test([=[ClearUserDefined.ClearStudentMap]=]  D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test.exe [==[--gtest_filter=ClearUserDefined.ClearStudentMap]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[ClearUserDefined.ClearStudentMap]=]
+  PROPERTIES
+    
+    DEF_SOURCE_LINE [==[D:\projects\Crawler\ds_library-Vivek\CollectionsLib-RedisLite\tests\hashmaptesting.cpp:369]==]
+    WORKING_DIRECTORY [==[D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite]==]
+    SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==]
+    
+)
+set(hashmap_test_TESTS [==[InsertPrimitive.InsertSingleElement]==] [==[InsertPrimitive.InsertMultipleElements]==] [==[InsertPrimitive.UpdateExistingKey]==] [==[InsertPrimitive.TriggerRehash]==] [==[InsertUserDefined.InsertStudent]==] [==[HashMapTest.Find]==] [==[HashMapTest.Contains]==] [==[HashMapTest.Remove]==] [==[SizePrimitive.InitiallyZero]==] [==[SizePrimitive.AfterInsertions]==] [==[SizePrimitive.AfterRemoval]==] [==[SizePrimitive.AfterClear]==] [==[SizeUserDefined.StudentObjects]==] [==[IsEmptyPrimitive.NewMap]==] [==[IsEmptyPrimitive.AfterInsertion]==] [==[IsEmptyPrimitive.AfterRemoval]==] [==[IsEmptyPrimitive.AfterClear]==] [==[IsEmptyUserDefined.StudentMap]==] [==[ClearPrimitive.ClearSingleElement]==] [==[ClearPrimitive.ClearMultipleElements]==] [==[ClearPrimitive.ClearAlreadyEmptyMap]==] [==[ClearPrimitive.InsertAfterClear]==] [==[ClearUserDefined.ClearStudentMap]==])

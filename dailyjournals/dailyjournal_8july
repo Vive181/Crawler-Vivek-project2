@@ -1,0 +1,104 @@
+# Daily Journal
+
+**Date:** July 8
+
+---
+
+## Section 1 — Specific Bug
+
+Throughout today's development, multiple issues were encountered while integrating crawler modules and implementing the URL validation functionality.
+
+The major problems included:
+
+* `queue.h` was not being detected by the editor, resulting in red underline errors on:
+
+  ```cpp
+  Queue<URLNode> frontierQueue;
+  ```
+* IntelliSense reported errors such as:
+
+  * `No template named 'Queue'`
+  * Red underlines on `std::string`
+* Template definitions from `queue.tpp` were not being recognized correctly.
+* The crawler project initially failed to locate headers from the Collections Library due to incorrect CMake include path configuration.
+* Even after successful compilation, IntelliSense continued displaying false errors because of indexing issues.
+* While implementing the `URLValidator` module, compilation failed with:
+
+  ```text
+  error: 'std::string' has no member named 'starts_with'
+  ```
+* The error occurred in the `hasValidProtocol()` and `hasDomain()` functions because the current MinGW/GCC compiler does not support the C++20 `std::string::starts_with()` function.
+
+---
+
+## Section 2 — Failed Attempt
+
+Initially, I suspected that the Queue implementation and URLFrontier contained implementation bugs because IntelliSense continuously displayed template-related errors. I repeatedly modified include statements and rebuilt the project, expecting the editor errors to disappear automatically. However, the actual problem was the CMake include path configuration and IntelliSense indexing rather than the implementation itself.
+
+Later, while implementing the URLValidator, I initially used `std::string::starts_with()` to check URL prefixes since it provided a clean and readable solution. Although the validation logic was correct, the project failed to compile because the current compiler targets an older C++ standard. After identifying the compatibility issue, I replaced the `starts_with()` calls with `compare()`-based prefix checking, allowing the project to compile successfully without requiring C++20 support.
+
+These debugging attempts helped distinguish actual implementation problems from build configuration and compiler compatibility issues.
+
+---
+
+## Section 3 — Memory Diagram
+
+**(Hand-drawn memory diagram attached separately.)**
+
+The memory diagram illustrates:
+
+* `URLFrontier` managing `Queue<URLNode>`.
+* Each `URLNode` storing:
+
+  * `std::string url`
+  * `int depth`
+* FIFO enqueue and dequeue operations.
+
+* URL validation flow:
+
+  * `isValid()`
+  * `hasValidProtocol()`
+  * `hasDomain()`
+* Only validated URLs proceeding to the crawler pipeline.
+
+---
+
+## Section 4 — Code Reference
+
+**Files Modified**
+
+* `include/URLFrontier.h`
+* `src/URLFrontier.cpp`
+* `include/URLValidator.h`
+* `src/URLValidator.cpp`
+* `CMakeLists.txt`
+
+**Relevant Changes**
+
+* Verified and stabilized the previously implemented URLFrontier module.
+* Integrated `Queue<URLNode>` with the crawler.
+* Fixed CMake include directory configuration.
+* Resolved Queue template recognition issues.
+* Corrected IntelliSense-related configuration problems.
+* Implemented the complete `URLValidator` module.
+* Added:
+
+  * `isValid()`
+  * `hasValidProtocol()`
+  * `hasDomain()`
+* Replaced unsupported `std::string::starts_with()` with `compare()`-based prefix checking for compiler compatibility.
+* Verified successful compilation and correct functionality of both modules.
+
+**Commit Hash:** *(To be added after committing today's changes.)*
+
+---
+
+## Section 5 — Learning Reflection
+
+ Today I learned that many problems are not caused by incorrect code but by project configuration. At first i thought there were mistakes in my Queue and URLFrontier implementations because IntelliSense was showing many red errors. However after compiling the project successfully i realized that the code was correct and the errors were only coming from the editor. This taught me that compiler output is more reliable than IntelliSense when debugging C++ projects.
+
+I also understood the importance of templates and project setup. Template implementation files must be included correctly and CMake include paths should be configured properly. Even a small mistake in the project configuration can cause many confusing errors, although the actual implementation is correct.
+
+While implementing the URLValidator i learned that not every Cpp feature works with every compiler i initially used `std::string::starts_with()` but my compiler did not support it because it is a C++20 feature i replaced it with `compare()` which worked with my current compiler and gave the same result.
+
+At the end of the day the URLFrontier module was working properly the Queue was integrated successfully, and the URLValidator was implemented without compilation errors. This has prepared the crawler project for the next modules such as URL Normalizer, Seen Storage, Fetcher, and the Crawler Engine.

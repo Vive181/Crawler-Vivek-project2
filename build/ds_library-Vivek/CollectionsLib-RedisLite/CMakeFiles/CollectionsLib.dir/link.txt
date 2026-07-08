@@ -1,0 +1,2 @@
+C:\msys64\ucrt64\bin\ar.exe qc libCollectionsLib.a CMakeFiles/CollectionsLib.dir/src/hash.cpp.obj CMakeFiles/CollectionsLib.dir/src/redis.cpp.obj CMakeFiles/CollectionsLib.dir/src/parser.cpp.obj
+C:\msys64\ucrt64\bin\ranlib.exe libCollectionsLib.a
