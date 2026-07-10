@@ -24,7 +24,8 @@ public:
 
   void disconnect();
 
-private:
+  std::string getLastResponse() const;
+
 private:
   std::string webSocketURL;
 
@@ -36,6 +37,8 @@ private:
       webSocket;
 
   int messageID;
+
+  std::string lastResponse;
 };
 
 #endif

@@ -135,7 +135,37 @@ bool RenderEngine::navigate(const std::string &url) {
   return sendCommand("Page.navigate", params);
 }
 
-std::string RenderEngine::getRenderedHTML() { return ""; }
+std::string RenderEngine::getRenderedHTML() {
+  json params;
+
+  params["expression"] = "document.documentElement.outerHTML";
+
+  params["returnByValue"] = true;
+
+  bool success = sendCommand("Runtime.evaluate", params);
+
+  if (!success) {
+    return "";
+  }
+
+  try {
+    json response = json::parse(lastResponse);
+
+    if (!response.contains("result"))
+      return "";
+
+    if (!response["result"].contains("result"))
+      return "";
+
+    if (!response["result"]["result"].contains("value"))
+      return "";
+
+    return response["result"]["result"]["value"];
+
+  } catch (...) {
+    return "";
+  }
+}
 
 bool RenderEngine::sendCommand(const std::string &method, const json &params) {
   if (!connected) {
@@ -146,23 +176,45 @@ bool RenderEngine::sendCommand(const std::string &method, const json &params) {
     return false;
   }
 
+  int currentID = messageID++;
+
   json request;
 
-  request["id"] = messageID++;
-
+  request["id"] = currentID;
   request["method"] = method;
-
   request["params"] = params;
 
-  std::string message = request.dump();
+  webSocket->write(boost::asio::buffer(request.dump()));
 
-  webSocket->write(boost::asio::buffer(message));
+  while (true) {
+    boost::beast::flat_buffer responseBuffer;
 
-  boost::beast::flat_buffer responseBuffer;
+    webSocket->read(responseBuffer);
 
-  webSocket->read(responseBuffer);
+    lastResponse = boost::beast::buffers_to_string(responseBuffer.data());
 
-  return true;
+    try {
+      json response = json::parse(lastResponse);
+
+      // Event hai
+      if (!response.contains("id")) {
+        continue;
+      }
+
+      // Kisi aur request ka response
+      if (response["id"] != currentID) {
+        continue;
+      }
+
+      // Ye isi command ka response hai
+      return true;
+
+    } catch (...) {
+      return false;
+    }
+  }
 }
 
 void RenderEngine::disconnect() {}
+
+std::string RenderEngine::getLastResponse() const { return lastResponse; }
