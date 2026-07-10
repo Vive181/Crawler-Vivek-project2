@@ -5,13 +5,14 @@
 #include <cstddef>
 #include <string>
 
-
 // Represents a URL waiting to be crawled
 struct URLNode {
   std::string url;
   int depth;
+  int retryCount;
 
-  URLNode(const std::string &u = "", int d = 0) : url(u), depth(d) {}
+  URLNode(const std::string &u = "", int d = 0, int r = 0)
+      : url(u), depth(d), retryCount(r) {}
 };
 
 class URLFrontier {
