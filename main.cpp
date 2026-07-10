@@ -125,5 +125,17 @@ int main() {
     std::cout << "Tab Creation Failed\n";
   }
 
+  if (renderEngine.sendCommand("Page.enable", {})) {
+    std::cout << "Page Enabled\n";
+  } else {
+    std::cout << "Page Enable Failed\n";
+  }
+
+  if (renderEngine.navigate("https://example.com")) {
+    std::cout << "Navigation Started\n";
+  } else {
+    std::cout << "Navigation Failed\n";
+  }
+
   return 0;
 }

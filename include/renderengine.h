@@ -25,6 +25,7 @@ public:
   void disconnect();
 
 private:
+private:
   std::string webSocketURL;
 
   bool connected;
@@ -33,6 +34,8 @@ private:
 
   std::unique_ptr<boost::beast::websocket::stream<boost::asio::ip::tcp::socket>>
       webSocket;
+
+  int messageID;
 };
 
 #endif

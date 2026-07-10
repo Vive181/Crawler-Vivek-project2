@@ -5,7 +5,6 @@
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
-#include <iostream>
 
 #include <nlohmann/json.hpp>
 
@@ -23,6 +22,7 @@ static size_t writeCallback(void *contents, size_t size, size_t nmemb,
 RenderEngine::RenderEngine() {
   connected = false;
   webSocket = nullptr;
+  messageID = 1;
 }
 
 bool RenderEngine::connect() {
@@ -96,7 +96,7 @@ bool RenderEngine::createTab(const std::string &url) {
 
   std::string response;
 
-  std::string endpoint = "http://127.0.0.1:9222/json/new?url=" + url;
+  std::string endpoint = "http://127.0.0.1:9222/json/new?" + url;
 
   curl_easy_setopt(curl, CURLOPT_URL, endpoint.c_str());
 
@@ -107,8 +107,6 @@ bool RenderEngine::createTab(const std::string &url) {
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
   CURLcode result = curl_easy_perform(curl);
-
-  std::cout << "Response:\n" << response << "\n";
 
   curl_easy_cleanup(curl);
 
@@ -121,13 +119,50 @@ bool RenderEngine::createTab(const std::string &url) {
 
     webSocketURL = data["webSocketDebuggerUrl"];
 
+    connected = false;
+
     return true;
   } catch (...) {
     return false;
   }
 }
-bool RenderEngine::navigate(const std::string &url) { return false; }
+
+bool RenderEngine::navigate(const std::string &url) {
+  json params;
+
+  params["url"] = url;
+
+  return sendCommand("Page.navigate", params);
+}
 
 std::string RenderEngine::getRenderedHTML() { return ""; }
+
+bool RenderEngine::sendCommand(const std::string &method, const json &params) {
+  if (!connected) {
+    return false;
+  }
+
+  if (webSocket == nullptr) {
+    return false;
+  }
+
+  json request;
+
+  request["id"] = messageID++;
+
+  request["method"] = method;
+
+  request["params"] = params;
+
+  std::string message = request.dump();
+
+  webSocket->write(boost::asio::buffer(message));
+
+  boost::beast::flat_buffer responseBuffer;
+
+  webSocket->read(responseBuffer);
+
+  return true;
+}
 
 void RenderEngine::disconnect() {}
