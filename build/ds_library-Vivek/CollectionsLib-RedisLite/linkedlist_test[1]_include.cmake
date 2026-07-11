@@ -1,0 +1,5 @@
+if(EXISTS "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/linkedlist_test[1]_tests.cmake")
+  include("D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/linkedlist_test[1]_tests.cmake")
+else()
+  add_test(linkedlist_test_NOT_BUILT linkedlist_test_NOT_BUILT)
+endif()

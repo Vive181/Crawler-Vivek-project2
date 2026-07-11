@@ -5,7 +5,7 @@ file(REMOVE_RECURSE
   "redis_test.exe"
   "redis_test.exe.manifest"
   "redis_test.pdb"
-  "redis_test_e3b0c442_tests.cmake"
+  "redis_test[1]_tests.cmake"
 )
 
 # Per-language clean rules from dependency scanning.

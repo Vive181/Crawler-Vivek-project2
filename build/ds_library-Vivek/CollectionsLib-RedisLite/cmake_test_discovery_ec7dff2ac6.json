@@ -1,0 +1,254 @@
+{
+  "tests": 34,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "DynamicArrayPushBackTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "PushBackAddsElementToEmptyArray",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 43
+        },
+        {
+          "name": "PushBackTriggersResizeAutomatically",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 50
+        },
+        {
+          "name": "PushBackMaintainsOrderOfElements",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 62
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayInsertTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "InsertElementAtIndex",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 75
+        },
+        {
+          "name": "InsertOutOfBoundsThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 86
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayDeleteTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "DeleteElementAtIndex",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 92
+        },
+        {
+          "name": "DeleteOutOfBoundsThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 103
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayTest",
+      "tests": 17,
+      "testsuite": [
+        {
+          "name": "GetRetrievesCorrectElement",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 113
+        },
+        {
+          "name": "GetOutOfBoundsThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 119
+        },
+        {
+          "name": "SetModifiesExistingElement",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 137
+        },
+        {
+          "name": "SetDoesNothingForNegativeIndex",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 144
+        },
+        {
+          "name": "SetDoesNothingForIndexGreaterThanSize",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 151
+        },
+        {
+          "name": "PopBackReducesSizeAndRemovesLastElement",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 161
+        },
+        {
+          "name": "PopBackMultipleTimesEmptiesArray",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 174
+        },
+        {
+          "name": "GetSizeIncreasesWithPushBack",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 190
+        },
+        {
+          "name": "GetSizeDecreasesWithPopBack",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 196
+        },
+        {
+          "name": "IsEmptyFalseAfterPushBack",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 210
+        },
+        {
+          "name": "IsEmptyTrueAfterClear",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 214
+        },
+        {
+          "name": "ClearEmptiesPopulatedArray",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 222
+        },
+        {
+          "name": "ClearAllowsSubsequentPushBacks",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 234
+        },
+        {
+          "name": "CopyConstructorCreatesDeepCopy",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 244
+        },
+        {
+          "name": "CopyConstructorIndependentScaling",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 262
+        },
+        {
+          "name": "CopyAssignmentCreatesDeepCopy",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 276
+        },
+        {
+          "name": "CopyAssignmentHandlesSelfAssignment",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 290
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayGetTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "GetOnEmptyArrayThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 125
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayCustomUserTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "GetReturnsCorrectObject",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 130
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayPopBackTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "PopBackOnEmptyArrayDoesNotCrash",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 168
+        }
+      ]
+    },
+    {
+      "name": "DynamicArraySizeTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "GetSizeIsZeroForNewArray",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 185
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayEmptyTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "IsEmptyTrueForNewArray",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 205
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayClearTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "ClearOnEmptyArrayDoesNotCrash",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 228
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayCopyConstructorTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "CopyConstructorOnEmptyArrayWorks",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 254
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayCopyAssignmentTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "CopyAssignmentOverwritesExistingData",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 297
+        }
+      ]
+    },
+    {
+      "name": "DynamicArrayCustomTypeTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "CanStoreAndRetrieveObjects",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 315
+        },
+        {
+          "name": "ObjectsAreDeepCopiedDuringResize",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+          "line": 330
+        }
+      ]
+    }
+  ]
+}

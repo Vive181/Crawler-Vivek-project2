@@ -1,0 +1,179 @@
+# Daily Journal
+
+# June 9
+
+## Section 1 — Specific Bug
+
+## 1. Chrome Command Not Recognized
+
+### Error
+```text
+'chrome' is not recognized as an internal or external command,
+operable program or batch file.
+```
+
+### Cause
+The Chrome executable was not available through the system `PATH`, so Windows could not locate the command.
+
+### Resolution
+Used the full path to `chrome.exe` and launched Chrome with the required CDP flags.
+
+---
+
+## 2. Incorrect HTTP Method for CDP
+
+### Error
+```text
+Using unsafe HTTP verb GET to invoke /json/new.
+This action supports only PUT verb.
+```
+
+### Cause
+Recent versions of Chrome require the `/json/new` endpoint to be accessed using the **PUT** method instead of **GET**.
+
+### Resolution
+Replaced the GET request with:
+
+```bash
+curl -X PUT "http://127.0.0.1:9222/json/new?https://example.com"
+```
+
+---
+
+## 3. Understanding Chrome DevTools Protocol (CDP)
+
+### Issue
+Initially assumed that CDP needed to be downloaded separately.
+
+### Resolution
+Learned that CDP is built into Google Chrome and only needs to be enabled using:
+
+```bash
+--remote-debugging-port=9222
+```
+
+---
+
+## 4. Toolchain Confusion
+
+### Issue
+Switched between **MINGW64** and **UCRT64** terminals during development.
+
+### Resolution
+Decided to use a single toolchain consistently to avoid future compilation and linking problems.
+
+---
+
+## 5. Threshold-Based Framework Detection
+
+### Issue
+Initially planned to use a threshold score to distinguish between static HTML pages and JavaScript framework-based pages.
+
+### Problem
+Since the crawler starts from a **seed URL**, there is no initial dataset available to establish a reliable threshold value.
+
+### Resolution
+Decided to postpone this approach and implement framework detection as a separate component after completing the Fetcher.
+
+---
+
+## 6. Fetcher Architecture Decision
+
+### Issue
+There was uncertainty about whether to implement the Render Engine (CDP) before the Fetcher.
+
+### Resolution
+Finalized the development order:
+
+1. Fetcher
+2. HTML Parser
+3. Framework Detector
+4. Render Engine (CDP)
+
+This keeps the crawler modular and follows the Single Responsibility Principle.
+
+---
+
+# Summary
+
+| Issue | Status |
+|--------|--------|
+| Chrome command not recognized | Resolved |
+| Incorrect HTTP method for CDP | Resolved |
+| CDP installation misunderstanding | Resolved |
+| Toolchain inconsistency | Resolved |
+| Threshold detection limitation | Design updated |
+| Fetcher implementation order | Finalized |
+
+---
+
+## Section 2 — Failed Attempt
+
+1. Initially, I planned to implement all URL normalization rules inside a single function. This quickly became difficult to maintain and extend because multiple normalization rules were mixed together.
+
+I redesigned the implementation by separating each normalization rule into its own helper function, making the code cleaner, reusable, and easier to debug.
+
+2. I initially attempted to distinguish between static HTML pages and JavaScript framework-based pages by assigning a threshold score based on characteristics such as the number of script tags, framework-specific keywords, and the amount of initial HTML content.
+
+However, while designing the crawler workflow, I identified a major limitation. The crawler starts from a seed URL, and at that point there is no historical data or baseline available to determine an appropriate threshold value. Using a fixed threshold would likely produce incorrect classifications because different websites have very different structures. A simple static website and a modern JavaScript application can both vary significantly in the amount of HTML and JavaScript they contain.
+
+Because of this limitation, I decided not to continue with the threshold-based approach. Instead, I will first complete the Fetcher and later implement a dedicated Framework Detector that uses explicit detection rules and can integrate with a browser rendering engine when necessary. This approach is expected to be more reliable and scalable for an internet-wide crawler.
+
+3. Initially, I attempted to continue using the existing MSYS2 environment, but the required libcurl development packages were unavailable or incompatible.
+
+To solve this problem, I installed the **UCRT64** environment and then installed the required libcurl development packages. After switching to UCRT64, the project dependencies were installed successfully and the Fetcher implementation could proceed.
+
+---
+
+## Section 3 — Memory Diagram
+
+**Submitted separately in memory management folder.**
+
+The diagram illustrates the URL normalization workflow from input URL to the final canonical URL.
+
+---
+
+## Section 4 — Code Reference
+
+**Files:**
+
+- `include/URLnormalizer.h`
+- `src/URLnormalizer.cpp`
+-include/fetcher.h`
+- `src/fetcher.cpp`
+- `CMakeLists.txt`
+
+**Relevant Functions:**
+
+- `normalize()`
+- `normalizeProtocol()`
+- `normalizeDomain()`
+- `removeDefaultPort()`
+- `removeFragment()`
+- `normalizeTrailingSlash()`
+
+---
+**Relevant Changes:**
+
+- Fetcher interface
+- libcurl integration
+- Callback mechanism
+- HTTP GET workflow
+
+## Section 5 - What i performed
+
+* Designed the **Fetcher** as a dedicated networking component responsible solely for downloading web pages from the internet.
+* Selected **libcurl** as the HTTP client library and gained an understanding of its request lifecycle and callback-based mechanism for receiving response data.
+* Designed the **FetchResult** structure to encapsulate the downloaded HTML, HTTP status code, and other request-related information.
+* Explored a threshold-based approach for distinguishing between static HTML pages and JavaScript framework-based pages, but discarded the idea because a crawler starting from a seed URL has no reliable initial baseline for determining an appropriate threshold.
+* Finalized a modular crawler architecture in which the **Fetcher** retrieves web content, the **Framework Detector** determines whether browser rendering is required, and the **Render Engine (CDP)** is invoked only for pages that require JavaScript execution.
+* Added the URL Normalizer module to the project documentation and created a workflow diagram illustrating the complete URL normalization process, making the normalization pipeline easier to understand and maintain.
+
+## Section 6 — Learning Reflection
+
+This session helped me understand that URL normalization is much more than converting text to lowercase. Different URL representations can point to the same resource, so applying normalization rules before storing URLs is essential for preventing duplicate crawling. Separating each normalization rule into independent helper functions also improved the maintainability of the module.
+
+This session improved my understanding of HTTP communication in C++. I learned that libcurl receives webpage data in multiple chunks through callback functions instead of returning the complete response at once. I also learned the importance of using the correct development environment. Installing **UCRT64** allowed me to use the latest libcurl packages and provided a stable environment for future crawler development.
+
+---
+

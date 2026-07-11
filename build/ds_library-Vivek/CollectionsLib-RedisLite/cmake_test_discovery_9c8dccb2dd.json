@@ -1,0 +1,175 @@
+{
+  "tests": 23,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "LinkedListInsertTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "InsertFrontOnEmptyList",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 30
+        },
+        {
+          "name": "InsertFrontMaintainsCorrectOrder",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 37
+        },
+        {
+          "name": "InsertFrontIncreasesSize",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "name": "LinkedListDeleteTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "DeleteFrontOnEmptyListThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 58
+        },
+        {
+          "name": "DeleteFrontRemovesElementAndDecreasesSize",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 63
+        }
+      ]
+    },
+    {
+      "name": "LinkedListTest",
+      "tests": 10,
+      "testsuite": [
+        {
+          "name": "GetRetrievesCorrectElement",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 75
+        },
+        {
+          "name": "GetOutOfBoundsThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 80
+        },
+        {
+          "name": "SetModifiesExistingElement",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 93
+        },
+        {
+          "name": "SetOutOfBoundsThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 100
+        },
+        {
+          "name": "IsEmptyFalseAfterInsert",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 118
+        },
+        {
+          "name": "IsEmptyTrueAfterClear",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 122
+        },
+        {
+          "name": "GetSizeReturnsCorrectCount",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 135
+        },
+        {
+          "name": "GetSizeIsZeroAfterClear",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 139
+        },
+        {
+          "name": "ClearEmptiesPopulatedList",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 147
+        },
+        {
+          "name": "ClearAllowsSubsequentInserts",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 159
+        }
+      ]
+    },
+    {
+      "name": "LinkedListGetTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "GetOnEmptyListThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 85
+        }
+      ]
+    },
+    {
+      "name": "LinkedListSetTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "SetOnEmptyListThrowsException",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 105
+        }
+      ]
+    },
+    {
+      "name": "LinkedListEmptyTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "IsEmptyTrueForNewList",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 113
+        }
+      ]
+    },
+    {
+      "name": "LinkedListSizeTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "GetSizeIsZeroForNewList",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 130
+        }
+      ]
+    },
+    {
+      "name": "LinkedListClearTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "ClearOnEmptyListDoesNotCrash",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 153
+        }
+      ]
+    },
+    {
+      "name": "LinkedListCustomTypeTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "CanStoreAndRetrieveObjects",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 169
+        },
+        {
+          "name": "ObjectsAreProperlyDestroyedOnClear",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 184
+        },
+        {
+          "name": "SetWorksWithCustomObjects",
+          "file": "D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+          "line": 194
+        }
+      ]
+    }
+  ]
+}

@@ -366,17 +366,17 @@ Whenever the HTML Parser discovers a new URL, the crawler first checks the Seen 
 
 ---
 
-# Section 1 - Public API
+# Section 1 – Public API
 
-Seen Storage only requires methods to record and verify whether a URL has already been discovered.
+The **Seen Storage** module provides a minimal set of operations required to maintain the collection of previously discovered URLs. Its primary responsibility is to prevent duplicate URLs from being scheduled for crawling, thereby ensuring that each unique web page is processed only once.
 
 | Method | Parameters | Return Type | Purpose |
 |---------|------------|-------------|---------|
-| `addSeenURL(url)` | `url : String` | `bool` | Adds a URL to Seen Storage. Returns `true` if added successfully; returns `false` if the URL already exists. |
-| `isSeen(url)` | `url : String` | `bool` | Checks whether the specified URL has already been discovered. |
-| `removeSeenURL(url)` *(Optional)* | `url : String` | `bool` | Removes a URL from Seen Storage if required. Returns `true` if removed successfully; otherwise returns `false`. |
-| `seenCount()` | None | `int` | Returns the total number of URLs currently stored in Seen Storage. |
-| `clearSeenStorage()` | None | `void` | Removes all stored URLs and resets the Seen Storage. |
+| **`addSeenURL(url)`** | `url : String` | `bool` | Inserts a normalized URL into the Seen Storage if it does not already exist. Returns `true` when the URL is successfully inserted and `false` if the URL has already been recorded, preventing duplicate entries from being added to the crawler pipeline. |
+| **`isSeen(url)`** | `url : String` | `bool` | Determines whether the specified URL is already present in the Seen Storage. This method is invoked before scheduling a URL for crawling to ensure that previously discovered pages are not processed multiple times. |
+| **`removeSeenURL(url)`** *(Optional)* | `url : String` | `bool` | Removes the specified URL from the Seen Storage if it exists. Although not required during normal crawling, this operation supports testing, storage maintenance, debugging, and future features such as URL expiration or recrawling policies. |
+| **`seenCount()`** | None | `int` | Returns the total number of unique URLs currently maintained by the Seen Storage. This information can be used to monitor crawler progress, generate runtime statistics, and validate the correctness of storage operations. |
+| **`clearSeenStorage()`** | None | `void` | Removes every stored URL from the Seen Storage and releases all associated resources, restoring the storage to its initial empty state. This operation is typically performed when resetting the crawler or performing application cleanup before termination. |
 
 ### Class Definition
 
@@ -485,16 +485,27 @@ Rejected
 
 ---
 
-# Section 4 - Complexity Analysis
+# Section 4 – Complexity Analysis
 
-| Method | Best | Average | Worst | Purpose |
-|--------|------|----------|-------|---------|
-| `addSeenURL()` | O(1) | O(1) | O(n) | Inserts a unique URL into the hash set. |
-| `isSeen()` | O(1) | O(1) | O(n) | Checks whether a URL already exists. |
-| `removeSeenURL()` | O(1) | O(1) | O(n) | Removes a URL from the hash set. |
-| `seenCount()` | O(1) | O(1) | O(1) | Returns the number of stored URLs. |
-| `clearSeenStorage()` | O(n) | O(n) | O(n) | Removes every stored URL. |
+| Method | Best Case | Average Case | Worst Case | Purpose |
+|--------|-----------|--------------|------------|---------|
+| **`addSeenURL()`** | **O(1)** | **O(1)** | **O(n)** | Inserts a normalized URL into the hash map only if it has not been encountered before. The operation computes the hash of the URL, locates the corresponding bucket, and stores the entry while preventing duplicates. Maintaining constant-time insertion enables the crawler to efficiently process millions of URLs without repeatedly visiting the same page. |
+| **`isSeen()`** | **O(1)** | **O(1)** | **O(n)** | Determines whether a URL already exists in the hash map before it is scheduled for crawling. Efficient lookup prevents duplicate URLs from entering the URL Frontier, reducing unnecessary network requests and improving the overall efficiency of the crawler. |
+| **`removeSeenURL()`** | **O(1)** | **O(1)** | **O(n)** | Removes a URL from the hash map by locating its corresponding bucket and deleting the stored entry. Although rarely used during normal crawling, this operation supports storage maintenance, testing, debugging, and future enhancements such as URL expiration or recrawling policies. |
+| **`seenCount()`** | **O(1)** | **O(1)** | **O(1)** | Returns the total number of unique URLs currently stored by accessing an internally maintained counter. Since no traversal of the hash map is required, the execution time remains constant regardless of the number of stored URLs. This information is useful for monitoring crawler progress and collecting runtime statistics. |
+| **`clearSeenStorage()`** | **O(n)** | **O(n)** | **O(n)** | Clears the entire hash map by removing every stored URL and releasing all associated memory. Each entry must be visited exactly once during cleanup, making the running time proportional to the total number of stored URLs. This operation is typically performed when resetting the crawler or releasing resources before program termination. |
 
+### Complexity Justification
+
+- **Best Case – O(1):** The hash function maps the URL directly to its bucket with no collisions, allowing insertion, lookup, or deletion to complete in constant time.
+
+- **Average Case – O(1):** Assuming a well-designed hash function and a balanced distribution of keys across buckets, hash map operations require only a constant number of comparisons on average, even as the number of stored URLs grows.
+
+- **Worst Case – O(n):** If many URLs hash to the same bucket due to excessive collisions or poor hash distribution, the bucket may need to be traversed linearly, causing insertion, lookup, or deletion to degrade to **O(n)**.
+
+- **`seenCount()`** remains **O(1)** because the total number of stored URLs is maintained as an internal member variable rather than being calculated by traversing the hash map.
+
+- **`clearSeenStorage()`** is **O(n)** in all cases because every stored entry must be removed and its allocated memory released exactly once.
 ---
 
 # Section 5 - Future Compatibility
@@ -1406,4 +1417,193 @@ The following helper functions are **private** and are used internally by `norma
 | `removeDefaultPort(const std::string& url)` | `url : const std::string&` | `std::string` | Removes default port numbers such as `:80` for HTTP and `:443` for HTTPS. Since these ports are automatically assumed by web browsers, removing them prevents multiple representations of the same URL from being stored separately. |
 | `removeFragment(const std::string& url)` | `url : const std::string&` | `std::string` | Removes the fragment identifier (the portion beginning with `#`). Fragments are used only for navigation within a webpage and do not change the actual content returned by the web server, so they are excluded from the normalized URL. |
 | `normalizeTrailingSlash(const std::string& url)` | `url : const std::string&` | `std::string` | Removes unnecessary trailing slashes from the URL where appropriate. This prevents URLs such as `https://example.com/page` and `https://example.com/page/` from being considered different when they refer to the same resource. |
+
+# Section 2 - Internal implementation of URL Normalizer
+
+## Workflow
+
+![alt text](../Memory_management_pics/URLnormalizer_workflow.jpeg)
+
+The **URL Normalizer** is implemented as a sequence of independent normalization operations. Instead of performing all transformations inside a single block of code, the normalizer delegates each task to a dedicated helper function. This modular approach makes the implementation easier to understand, maintain, and extend.
+
+When a valid URL is received, the `normalize()` function acts as the controller of the normalization process. It passes the URL through each normalization stage one after another. Every helper function performs exactly one transformation and returns the updated URL to the next stage.
+
+The normalization process is carried out in the following order:
+
+1. **Normalize the Protocol**
+   - Converts the protocol to lowercase.
+   - Example:
+     ```
+     HTTP://example.com
+     ```
+     becomes
+     ```
+     http://example.com
+     ```
+
+2. **Normalize the Domain**
+   - Converts the domain name to lowercase because domain names are case-insensitive.
+   - Example:
+     ```
+     http://Example.COM
+     ```
+     becomes
+     ```
+     http://example.com
+     ```
+
+3. **Remove Default Port**
+   - Removes port `80` from HTTP URLs and port `443` from HTTPS URLs because these ports are automatically assumed by web browsers.
+   - Example:
+     ```
+     https://example.com:443
+     ```
+     becomes
+     ```
+     https://example.com
+     ```
+
+4. **Remove URL Fragment**
+   - Removes everything after the `#` symbol because fragments only identify a location inside the webpage and do not affect the resource returned by the server.
+   - Example:
+     ```
+     https://example.com/page#section
+     ```
+     becomes
+     ```
+     https://example.com/page
+     ```
+
+5. **Normalize Trailing Slash**
+   - Removes unnecessary trailing slashes when they do not change the webpage being referenced.
+   - Example:
+     ```
+     https://example.com/about/
+     ```
+     becomes
+     ```
+     https://example.com/about
+     ```
+
+After all normalization steps have been completed, the resulting URL is returned as the canonical representation. This standardized URL is then forwarded to the **Seen URL Storage**, where duplicate detection is performed before the URL is inserted into the **URL Frontier**.
+
+# Section 3 - Failure handling 
+
+## Failure Scenarios
+
+The normalizer may fail in the following situations:
+
+- The input URL is empty.
+- The URL has not been validated and contains an unsupported format.
+- The protocol is missing or malformed.
+- The domain name cannot be identified correctly.
+- The URL becomes invalid after a normalization step.
+- An unexpected format is encountered that cannot be processed by the current normalization rules.
+
+## Failure Handling Strategy
+
+The URL Normalizer applies each normalization rule one after another. After every transformation, it verifies that the URL is still valid.
+
+The normalization process follows these steps:
+
+1. Receive a validated URL.
+2. Apply one normalization rule.
+3. Verify that the transformed URL remains valid.
+4. If the URL is still valid, continue to the next normalization step.
+5. If any normalization step fails, stop the normalization process immediately.
+6. Return an error or an invalid result to the crawler.
+7. The URL is discarded and is not inserted into the Seen URL Storage or the URL Frontier.
+
+## Failure workflow
+
+```text
+Validated URL
+      │
+      ▼
+normalize()
+      │
+      ▼
+Normalization Step
+      │
+      ├── Success ─────► Next Step
+      │
+      └── Failure
+             │
+             ▼
+      Stop Normalization
+             │
+             ▼
+      Report Failure
+             │
+             ▼
+      Reject URL
+```
+
+# Section 4 - Complexity Analysis
+
+Let **n** be the length of the input URL.
+
+| Operation | Best Case | Average Case | Worst Case | Reason |
+|-----------|-----------|--------------|------------|--------|
+| `normalize()` | **O(1)** | **O(n)** | **O(n)** | In the best case, the URL is already in canonical form and only a few fixed checks are required before returning it. In the average case, the normalizer performs a small number of transformations such as converting the domain to lowercase or removing a fragment. In the worst case, every normalization rule is applied and the entire URL must be examined, making the running time proportional to the length of the URL. |
+
+---
+
+## Internal Helper Functions
+
+| Function | Best Case | Average Case | Worst Case | Reason |
+|----------|-----------|--------------|------------|--------|
+| `normalizeProtocol()` | **O(1)** | **O(1)** | **O(1)** | The protocol is always located at the beginning of the URL. Only a fixed number of characters need to be checked or converted, so the execution time never depends on the URL length. |
+| `normalizeDomain()` | **O(1)** | **O(n)** | **O(n)** | If the domain is already lowercase, only a few comparisons are needed. Otherwise, the function scans the complete domain and converts uppercase characters to lowercase. |
+| `removeDefaultPort()` | **O(1)** | **O(n)** | **O(n)** | When the URL does not contain an explicit port, the function quickly determines that no modification is required. If a port is present, it searches and removes it, requiring traversal of part or all of the URL. |
+| `removeFragment()` | **O(1)** | **O(n)** | **O(n)** | If the URL does not contain a fragment identifier (`#`), the function completes after a simple check. Otherwise, it searches for the fragment and removes everything that follows it. |
+| `normalizeTrailingSlash()` | **O(1)** | **O(1)** | **O(1)** | The function only examines the last character of the URL and removes a trailing slash if necessary. Since it accesses a fixed position, its execution time is always constant. |
+
+---
+
+## Summary
+
+### Time Complexity
+
+- **Best Case:** O(1)
+- **Average Case:** O(n)
+- **Worst Case:** O(n)
+
+The overall complexity is determined by the `normalize()` function because it invokes all normalization steps. Most helper functions either perform constant-time checks or scan the URL once. Since no nested traversal occurs, the normalizer remains efficient even for long URLs.
+
+# Section 5 - Future Compatibility with the Indexer
+
+The **URL Normalizer** plays an important role in ensuring that the Indexer works with a clean and consistent collection of webpages. Before a webpage is fetched and stored, the normalizer converts its URL into a canonical format. As a result, different textual representations of the same webpage are treated as a single resource throughout the crawler pipeline.
+
+When the Indexer processes stored webpages in the future, it can rely on these normalized URLs as unique identifiers. This prevents the same webpage from being indexed multiple times simply because it was discovered through different URL representations.
+
+For example, the following URLs all refer to the same webpage:
+
+```
+HTTP://Example.com
+http://example.com/
+http://example.com:80
+http://example.com/#about
+```
+
+After normalization, they become:
+
+```
+http://example.com
+```
+
+Since only the normalized URL is stored, the Indexer creates a single index entry instead of multiple duplicate entries.
+
+## Future Enhancements
+
+The URL Normalizer can be extended with additional normalization rules to further improve indexing quality, such as:
+
+- Removing common tracking parameters (for example, `utm_source`, `utm_medium`, and `utm_campaign`) that do not change the webpage content.
+- Sorting query parameters into a consistent order so that URLs containing the same parameters in different sequences are treated as identical.
+- Resolving relative paths (such as `.` and `..`) into their absolute form.
+- Decoding percent-encoded characters where appropriate to create a consistent URL representation.
+- Supporting internationalized domain names (IDNs) by converting them into a canonical format.
+- Applying configurable normalization rules for specific websites that have unique URL structures.
+
+These enhancements will allow the Indexer to process a cleaner dataset, reduce duplicate index entries, improve search accuracy, and make the indexing process more efficient as the crawler grows.
 

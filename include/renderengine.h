@@ -7,6 +7,9 @@
 
 #include <boost/asio.hpp>
 #include <boost/beast/websocket.hpp>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 class RenderEngine {
 public:
@@ -39,6 +42,12 @@ private:
   int messageID;
 
   std::string lastResponse;
+
+  bool waitForLoadEvent();
+
+  std::string readMessage();
+
+  json readJSONMessage();
 };
 
 #endif

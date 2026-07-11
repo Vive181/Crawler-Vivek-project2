@@ -187,14 +187,9 @@ bool RenderEngine::sendCommand(const std::string &method, const json &params) {
   webSocket->write(boost::asio::buffer(request.dump()));
 
   while (true) {
-    boost::beast::flat_buffer responseBuffer;
-
-    webSocket->read(responseBuffer);
-
-    lastResponse = boost::beast::buffers_to_string(responseBuffer.data());
 
     try {
-      json response = json::parse(lastResponse);
+      json response = readJSONMessage();
 
       // Event hai
       if (!response.contains("id")) {
@@ -215,6 +210,56 @@ bool RenderEngine::sendCommand(const std::string &method, const json &params) {
   }
 }
 
-void RenderEngine::disconnect() {}
+void RenderEngine::disconnect() {
+  if (!connected) {
+    return;
+  }
+
+  if (webSocket != nullptr) {
+    try {
+      webSocket->close(boost::beast::websocket::close_code::normal);
+    } catch (...) {
+    }
+
+    webSocket.reset();
+  }
+
+  connected = false;
+}
 
 std::string RenderEngine::getLastResponse() const { return lastResponse; }
+
+std::string RenderEngine::readMessage() {
+  boost::beast::flat_buffer buffer;
+
+  webSocket->read(buffer);
+
+  return boost::beast::buffers_to_string(buffer.data());
+}
+
+bool RenderEngine::waitForLoadEvent() {
+  while (true) {
+
+    std::string message = readMessage();
+
+    try {
+      json response = json::parse(message);
+
+      if (response.contains("method")) {
+        if (response["method"] == "Page.loadEventFired") {
+          return true;
+        }
+      }
+    } catch (...) {
+      return false;
+    }
+  }
+}
+
+json RenderEngine::readJSONMessage() {
+  std::string message = readMessage();
+
+  lastResponse = message;
+
+  return json::parse(message);
+}

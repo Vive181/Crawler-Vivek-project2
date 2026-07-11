@@ -1,0 +1,5 @@
+if(EXISTS "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test[1]_tests.cmake")
+  include("D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/hashmap_test[1]_tests.cmake")
+else()
+  add_test(hashmap_test_NOT_BUILT hashmap_test_NOT_BUILT)
+endif()

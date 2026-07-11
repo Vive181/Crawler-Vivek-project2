@@ -1,5 +1,0 @@
-if(EXISTS "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/parser_test_e3b0c442_tests.cmake")
-  include("D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/parser_test_e3b0c442_tests.cmake")
-else()
-  add_test(parser_test_NOT_BUILT parser_test_NOT_BUILT)
-endif()
