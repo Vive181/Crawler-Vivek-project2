@@ -54,6 +54,12 @@
   "output": "CMakeFiles/Crawler.dir/src/HTMLparser.cpp.obj"
 },
 {
+  "directory": "D:/projects/Crawler/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\seenstorage.cpp.obj -c D:\\projects\\Crawler\\src\\seenstorage.cpp",
+  "file": "D:/projects/Crawler/src/seenstorage.cpp",
+  "output": "CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj"
+},
+{
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
   "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/CollectionsLib.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\hash.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\hash.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/src/hash.cpp",

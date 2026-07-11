@@ -1,11 +1,12 @@
+#include "../ds_library-Vivek/CollectionsLib-RedisLite/include/Set.h"
 #include "HTMLparser.h"
-#include "Set.h"
 #include "URLfrontier.h"
 #include "URLnormalizer.h"
 #include "URLvalidator.h"
 #include "fetcher.h"
 #include "frameworkdetector.h"
 #include "renderengine.h"
+#include "seenstorage.h"
 
 #include <iostream>
 
@@ -138,14 +139,12 @@ int main() {
 
   if (!renderEngine.createTab("https://example.com")) {
     std::cout << "Tab Creation Failed\n";
-    return 0;
   }
 
   std::cout << "CDP Tab Created\n";
 
   if (!renderEngine.connect()) {
     std::cout << "WebSocket Failed\n";
-    return 0;
   }
 
   std::cout << "WebSocket Connected\n";
@@ -185,10 +184,10 @@ int main() {
 
   urlSet.insert("https://example.com");
   urlSet.insert("https://google.com");
-  urlSet.insert("https://example.com");
+  urlSet.insert("https://example.com"); // duplicate
 
-  std::cout << "Contains example: " << urlSet.contains("https://example.com")
-            << "\n";
+  std::cout << "Contains example.com: "
+            << urlSet.contains("https://example.com") << "\n";
 
   std::cout << "Size: " << urlSet.size() << "\n";
 
@@ -196,5 +195,35 @@ int main() {
 
   std::cout << "Size after remove: " << urlSet.size() << "\n";
 
+  std::cout << "Empty: " << urlSet.empty() << "\n";
+
+  std::cout << "\n========== Seen Storage Test ==========\n";
+
+  SeenStorage storage;
+
+  std::cout << "Add example.com: " << storage.addSeenURL("https://example.com")
+            << "\n";
+
+  std::cout << "Add google.com: " << storage.addSeenURL("https://google.com")
+            << "\n";
+
+  std::cout << "Add duplicate example.com: "
+            << storage.addSeenURL("https://example.com") << "\n";
+
+  std::cout << "Is example.com seen: " << storage.isSeen("https://example.com")
+            << "\n";
+
+  std::cout << "Is react.dev seen: " << storage.isSeen("https://react.dev")
+            << "\n";
+
+  std::cout << "Total URLs: " << storage.size() << "\n";
+
+  storage.removeSeenURL("https://google.com");
+
+  std::cout << "Size after remove: " << storage.size() << "\n";
+
+  storage.clear();
+
+  std::cout << "Size after clear: " << storage.size() << "\n";
   return 0;
 }

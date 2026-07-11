@@ -26,6 +26,7 @@ add_executable(Crawler
     src/renderengine.cpp
     src/KMP.cpp
     src/HTMLparser.cpp
+    src/seenstorage.cpp
 )
 
 target_include_directories(Crawler PRIVATE

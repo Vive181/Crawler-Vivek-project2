@@ -545,6 +545,30 @@ src/renderengine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/renderengine.cpp.s
 .PHONY : src/renderengine.cpp.s
 
+src/seenstorage.obj: src/seenstorage.cpp.obj
+.PHONY : src/seenstorage.obj
+
+# target to build an object file
+src/seenstorage.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj
+.PHONY : src/seenstorage.cpp.obj
+
+src/seenstorage.i: src/seenstorage.cpp.i
+.PHONY : src/seenstorage.i
+
+# target to preprocess a source file
+src/seenstorage.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/seenstorage.cpp.i
+.PHONY : src/seenstorage.cpp.i
+
+src/seenstorage.s: src/seenstorage.cpp.s
+.PHONY : src/seenstorage.s
+
+# target to generate assembly for a file
+src/seenstorage.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/seenstorage.cpp.s
+.PHONY : src/seenstorage.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -597,6 +621,9 @@ help:
 	@echo ... src/renderengine.obj
 	@echo ... src/renderengine.i
 	@echo ... src/renderengine.s
+	@echo ... src/seenstorage.obj
+	@echo ... src/seenstorage.i
+	@echo ... src/seenstorage.s
 .PHONY : help
 
 
