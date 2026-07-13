@@ -11,6 +11,7 @@ bool URLValidator::isValid(const std::string &url) {
     return false;
   }
 
+  
   if (!hasDomain(url)) {
     return false;
   }

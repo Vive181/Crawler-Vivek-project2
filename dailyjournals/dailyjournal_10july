@@ -1,0 +1,589 @@
+# Daily Development Journal
+
+**Date:** July 10
+
+---
+
+# Section 1 — Specific Bug
+
+## Bug 1: Boost.Beast WebSocket include error
+
+**Compiler Error:**
+
+```
+fatal error: boost/asio.hpp: No such file or directory
+```
+
+### Cause:
+
+The RenderEngine implementation required Boost.Asio and Boost.Beast for CDP WebSocket communication, but the compiler was unable to locate the Boost headers.
+
+### Resolution:
+
+* Verified the active MinGW/UCRT64 environment.
+* Checked the Boost installation path.
+* Updated the CMake include configuration to correctly locate Boost headers.
+* Rebuilt the project successfully after fixing the include setup.
+
+---
+
+## Bug 2: Chrome CDP connection failure
+
+**Runtime Output:**
+
+```
+curl: (7) Failed to connect to 127.0.0.1 port 9222
+```
+
+### Cause:
+
+Chrome was not running with the remote debugging port enabled, so the RenderEngine could not access the CDP endpoint.
+
+### Resolution:
+
+* Started Chrome using:
+
+```
+chrome.exe --remote-debugging-port=9222
+```
+
+* Verified the CDP endpoint was active.
+* Confirmed browser information was returned from port 9222.
+
+---
+
+## Bug 3: CDP Tab Creation Failure
+
+**Runtime Output:**
+
+```
+Tab Creation Failed
+```
+
+### Cause:
+
+The Chrome debugging endpoint was available, but the page creation request was not reaching the correct CDP endpoint.
+
+### Resolution:
+
+* Tested the endpoint manually using curl.
+* Corrected the tab creation request.
+* Successfully received:
+
+```
+webSocketDebuggerUrl
+```
+
+from Chrome.
+
+---
+
+## Bug 4: Rendered HTML Extraction Failure
+
+**Runtime Output:**
+
+```
+Rendered HTML Failed
+```
+
+### Cause:
+
+CDP events such as `Page.frameStartedLoading` were being received before the actual command response. The response handler was treating events incorrectly.
+
+### Resolution:
+
+Updated `sendCommand()` to:
+
+* Ignore messages without an `id`.
+* Match responses using command IDs.
+* Continue reading until the correct response arrives.
+
+After fixing:
+
+```
+Rendered HTML Size : 544
+```
+
+was successfully received.
+
+---
+
+## Bug 5: HTML Parser URL Extraction Issues
+
+### Issue:
+
+Initial HTML parsing logic could identify `<a>` tags but required better handling for real-world HTML variations.
+
+### Problems Identified:
+
+* Uppercase attributes:
+
+```html
+<a HREF="page.html">
+```
+
+* Spaces around attributes:
+
+```html
+<a href = "page.html">
+```
+
+* Invalid links entering the crawler pipeline.
+
+### Resolution:
+
+Improved HTML Parser implementation:
+
+* Added case-insensitive attribute handling.
+* Created lowercase copies of tags before searching for `href`.
+* Validated `href` attribute boundaries.
+* Added support for spaces, tabs, and newline characters around attributes.
+* Used custom KMP string searching for pattern matching.
+
+---
+
+# Section 2 — Failed Attempt
+
+## Attempt 1: Direct WebSocket command handling
+
+Initially, the WebSocket response was directly read after sending a command.
+
+Problem:
+
+Chrome sends multiple event messages:
+
+```
+Page.frameStartedLoading
+Page.frameNavigated
+Runtime.executionContextCreated
+Command Response
+```
+
+Because events do not contain an `id`, the program sometimes tried to parse them as command responses.
+
+### Improvement:
+
+Implemented request ID matching:
+
+```cpp
+request["id"] = currentID;
+```
+
+and verified:
+
+```cpp
+response["id"] == currentID
+```
+
+before accepting the response.
+
+---
+
+## Attempt 2: Using fixed sleep delay for page loading
+
+A fixed delay approach was considered for waiting until the page was loaded.
+
+Problem:
+
+* Fast pages waste time.
+* Slow JavaScript pages may not finish rendering.
+
+### Learning:
+
+A proper CDP event-based approach using:
+
+```
+Page.loadEventFired
+```
+
+is more reliable and will be implemented through better event handling.
+
+---
+
+## Attempt 3: Simple href searching in HTML Parser
+
+Initially, searching directly for `"href"` caused incorrect matches in some cases.
+
+Problem:
+
+A normal string search could match:
+
+```html
+data-href=""
+```
+
+or other attributes containing similar text.
+
+### Improvement:
+
+Implemented attribute validation:
+
+* Checked characters before `href`.
+* Ensured `href` appears as an actual HTML attribute.
+* Extracted only valid quoted URLs.
+
+---
+
+## Attempt 4: Using direct storage of URLs without duplicate handling
+
+Problem:
+
+The crawler could discover the same URL multiple times from different pages.
+
+Example:
+
+```
+Page A
+ |
+ |---- https://example.com
+
+
+Page B
+ |
+ |---- https://example.com
+```
+
+Without duplicate checking, the URL would repeatedly enter the frontier.
+
+### Improvement:
+
+Designed Seen Storage using the custom Set implementation.
+
+---
+
+# Section 3 — Memory Diagram
+
+## RenderEngine Architecture
+
+```
+                 Chrome Browser
+                       |
+                       |
+              Remote Debugging Port
+                    :9222
+                       |
+                       |
+              CDP WebSocket URL
+                       |
+                       |
+               Boost.Beast WebSocket
+                       |
+        --------------------------------
+        |                              |
+   sendCommand()                 Runtime.evaluate()
+        |                              |
+        |                              |
+   JSON Request                 JavaScript Execution
+        |                              |
+        |                              |
+   Command Response             Rendered DOM HTML
+```
+
+---
+
+## HTML Parser Architecture
+
+```
+          HTML Content
+                |
+                ▼
+        KMP Pattern Search
+                |
+                ▼
+          Find <a> Tags
+                |
+                ▼
+        Extract href values
+                |
+                ▼
+        Validate Link Type
+                |
+                ▼
+       Convert Relative URL
+                |
+                ▼
+        Absolute URL Output
+```
+
+---
+
+## Seen Storage Architecture
+
+```
+              SeenStorage
+
+                   |
+                   |
+              Custom Set
+
+                   |
+                   |
+          HashMap<string,bool>
+
+                   |
+                   |
+        Collections Library
+```
+
+---
+
+## Complete Crawler Flow
+
+```
+Seed URL
+
+   |
+   ▼
+
+URL Validator
+
+   |
+   ▼
+
+URL Normalizer
+
+   |
+   ▼
+
+URL Frontier
+
+   |
+   ▼
+
+Fetcher
+   |
+   |---- Static HTML
+   |
+   |---- JavaScript Page
+              |
+              ▼
+        RenderEngine (CDP)
+
+   |
+   ▼
+
+HTML Parser
+
+   |
+   ▼
+
+Extract Links
+
+   |
+   ▼
+
+URL Validator
+
+   |
+   ▼
+
+URL Normalizer
+
+   |
+   ▼
+
+Seen Storage
+
+   |
+   ▼
+
+URL Frontier
+```
+
+---
+
+# Section 4 — Code Reference
+
+## Commit Reference
+
+**Commit Hash:**
+
+```
+(To be added after committing current changes)
+```
+
+---
+
+## Modified Files
+
+### RenderEngine Header
+
+```
+include/renderengine.h
+```
+
+Changes:
+
+* Added RenderEngine class structure.
+* Added WebSocket state management.
+* Added message handling declarations.
+
+---
+
+### RenderEngine Implementation
+
+```
+src/renderengine.cpp
+```
+
+Changes:
+
+* Implemented CDP browser communication.
+* Added tab creation using Chrome debugging API.
+* Added WebSocket connection using Boost.Beast.
+* Added CDP command execution.
+* Added page navigation.
+* Added Runtime.evaluate HTML extraction.
+* Added disconnect functionality.
+* Added message reading abstraction.
+
+Relevant functions:
+
+```
+RenderEngine::createTab()
+
+RenderEngine::connect()
+
+RenderEngine::sendCommand()
+
+RenderEngine::navigate()
+
+RenderEngine::getRenderedHTML()
+
+RenderEngine::disconnect()
+
+RenderEngine::readMessage()
+```
+
+---
+
+### HTML Parser Implementation
+
+```
+include/HTMLparser.h
+src/HTMLparser.cpp
+```
+
+Changes:
+
+* Created HTML Parser module.
+* Added URL extraction from anchor tags.
+* Implemented KMP-based searching.
+* Added case-insensitive href handling.
+* Added invalid link filtering.
+* Added relative URL conversion.
+
+Implemented functions:
+
+```
+HTMLParser::extractLinks()
+
+HTMLParser::isIgnoredLink()
+
+HTMLParser::makeAbsoluteURL()
+```
+
+Supported:
+
+* Absolute URLs.
+* Root-relative URLs.
+* Current directory URLs.
+* Parent directory URLs.
+* Multiple `../` paths.
+
+---
+
+### Seen Storage Implementation
+
+```
+include/SeenStorage.h
+src/SeenStorage.cpp
+```
+
+Changes:
+
+* Created Seen Storage wrapper component.
+* Integrated custom Set implementation.
+* Added URL duplicate tracking.
+
+Implemented operations:
+
+```
+addSeenURL()
+
+isSeen()
+
+removeSeenURL()
+
+size()
+
+clear()
+```
+
+---
+
+### Custom Set Implementation
+
+```
+include/Set.h
+src/Set.tpp
+```
+
+Changes:
+
+* Implemented generic Set template.
+* Used custom HashMap internally.
+
+Internal storage:
+
+```cpp
+HashMap<T,bool>
+```
+
+Implemented methods:
+
+```
+insert()
+
+contains()
+
+remove()
+
+size()
+
+empty()
+
+clear()
+```
+
+---
+
+### Project Build Configuration
+
+```
+CMakeLists.txt
+```
+
+Changes:
+
+* Added required source files.
+* Updated dependencies for new crawler components.
+* Verified successful project build.
+
+---
+
+# Section 5 — Learning Reflection
+
+when i was implementing RenderEngine, HTML Parser, and Seen Storage i learned
+
+* Browser rendering is different from simple HTTP fetching because JavaScript execution changes the final DOM content.
+* CDP communication requires handling asynchronous events and command responses separately.
+* HTML parsing requires more than searching for strings because real websites contain different attribute formats and relative URL structures.
+* KMP string matching can be used as a lightweight searching mechanism inside the parser.
+* URL extraction and URL scheduling should remain separate responsibilities.
+* A crawler must prevent duplicate crawling, which requires a dedicated storage layer.
+* Wrapper classes like SeenStorage improve modularity because the crawler does not directly depend on the underlying Set implementation.
+* Custom data structures can be integrated into larger systems instead of relying on STL containers.
+
+The biggest learning from today's development was understanding how individual crawler modules connect together. Fetching, rendering, parsing, validation, normalization, and duplicate prevention are separate responsibilities that together form a scalable crawler structure.
+

@@ -1,145 +1,151 @@
 [
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\main.cpp.obj -c D:\\projects\\Crawler\\main.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\main.cpp.obj -c D:\\projects\\Crawler\\main.cpp",
   "file": "D:/projects/Crawler/main.cpp",
   "output": "CMakeFiles/Crawler.dir/main.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLfrontier.cpp.obj -c D:\\projects\\Crawler\\src\\URLfrontier.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLfrontier.cpp.obj -c D:\\projects\\Crawler\\src\\URLfrontier.cpp",
   "file": "D:/projects/Crawler/src/URLfrontier.cpp",
   "output": "CMakeFiles/Crawler.dir/src/URLfrontier.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLvalidator.cpp.obj -c D:\\projects\\Crawler\\src\\URLvalidator.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLvalidator.cpp.obj -c D:\\projects\\Crawler\\src\\URLvalidator.cpp",
   "file": "D:/projects/Crawler/src/URLvalidator.cpp",
   "output": "CMakeFiles/Crawler.dir/src/URLvalidator.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLnormalizer.cpp.obj -c D:\\projects\\Crawler\\src\\URLnormalizer.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\URLnormalizer.cpp.obj -c D:\\projects\\Crawler\\src\\URLnormalizer.cpp",
   "file": "D:/projects/Crawler/src/URLnormalizer.cpp",
   "output": "CMakeFiles/Crawler.dir/src/URLnormalizer.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\fetcher.cpp.obj -c D:\\projects\\Crawler\\src\\fetcher.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\fetcher.cpp.obj -c D:\\projects\\Crawler\\src\\fetcher.cpp",
   "file": "D:/projects/Crawler/src/fetcher.cpp",
   "output": "CMakeFiles/Crawler.dir/src/fetcher.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\frameworkdetector.cpp.obj -c D:\\projects\\Crawler\\src\\frameworkdetector.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\frameworkdetector.cpp.obj -c D:\\projects\\Crawler\\src\\frameworkdetector.cpp",
   "file": "D:/projects/Crawler/src/frameworkdetector.cpp",
   "output": "CMakeFiles/Crawler.dir/src/frameworkdetector.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\renderengine.cpp.obj -c D:\\projects\\Crawler\\src\\renderengine.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\renderengine.cpp.obj -c D:\\projects\\Crawler\\src\\renderengine.cpp",
   "file": "D:/projects/Crawler/src/renderengine.cpp",
   "output": "CMakeFiles/Crawler.dir/src/renderengine.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\KMP.cpp.obj -c D:\\projects\\Crawler\\src\\KMP.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\KMP.cpp.obj -c D:\\projects\\Crawler\\src\\KMP.cpp",
   "file": "D:/projects/Crawler/src/KMP.cpp",
   "output": "CMakeFiles/Crawler.dir/src/KMP.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\HTMLparser.cpp.obj -c D:\\projects\\Crawler\\src\\HTMLparser.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\HTMLparser.cpp.obj -c D:\\projects\\Crawler\\src\\HTMLparser.cpp",
   "file": "D:/projects/Crawler/src/HTMLparser.cpp",
   "output": "CMakeFiles/Crawler.dir/src/HTMLparser.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/Crawler.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\seenstorage.cpp.obj -c D:\\projects\\Crawler\\src\\seenstorage.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\seenstorage.cpp.obj -c D:\\projects\\Crawler\\src\\seenstorage.cpp",
   "file": "D:/projects/Crawler/src/seenstorage.cpp",
   "output": "CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj"
 },
 {
+  "directory": "D:/projects/Crawler/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\Crawler.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Crawler.dir\\src\\pagestorage.cpp.obj -c D:\\projects\\Crawler\\src\\pagestorage.cpp",
+  "file": "D:/projects/Crawler/src/pagestorage.cpp",
+  "output": "CMakeFiles/Crawler.dir/src/pagestorage.cpp.obj"
+},
+{
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/CollectionsLib.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\hash.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\hash.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\CollectionsLib.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\hash.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\hash.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/src/hash.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/CollectionsLib.dir/src/hash.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/CollectionsLib.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\redis.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\redis.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\CollectionsLib.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\redis.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\redis.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/src/redis.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/CollectionsLib.dir/src/redis.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/CollectionsLib.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\parser.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\parser.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\CollectionsLib.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\CollectionsLib.dir\\src\\parser.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\src\\parser.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/src/parser.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/CollectionsLib.dir/src/parser.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/test_app.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\test_app.dir\\main.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\main.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\test_app.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\test_app.dir\\main.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\main.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/main.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/test_app.dir/main.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/dynamic_array_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\dynamic_array_test.dir\\tests\\dynamicArraytesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\dynamic_array_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\dynamic_array_test.dir\\tests\\dynamicArraytesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\dynamicArraytesting.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/dynamicArraytesting.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/dynamic_array_test.dir/tests/dynamicArraytesting.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/parser_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\parser_test.dir\\tests\\parsertesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\parsertesting.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\parser_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\parser_test.dir\\tests\\parsertesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\parsertesting.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/parsertesting.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/parser_test.dir/tests/parsertesting.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/linkedlist_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\linkedlist_test.dir\\tests\\linkedlist.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\linkedlist_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\linkedlist_test.dir\\tests\\linkedlist.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\linkedlist.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/linkedlist.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/linkedlist_test.dir/tests/linkedlist.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/doublylinkedlist_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\doublylinkedlist_test.dir\\tests\\doublylinkedlisttesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\doublylinkedlisttesting.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\doublylinkedlist_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\doublylinkedlist_test.dir\\tests\\doublylinkedlisttesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\doublylinkedlisttesting.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/doublylinkedlisttesting.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/doublylinkedlist_test.dir/tests/doublylinkedlisttesting.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/hashmap_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\hashmap_test.dir\\tests\\hashmaptesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\hashmaptesting.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\hashmap_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\hashmap_test.dir\\tests\\hashmaptesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\hashmaptesting.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/hashmaptesting.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/hashmap_test.dir/tests/hashmaptesting.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/redis_test.dir/includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\redis_test.dir\\tests\\redislitetesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\redis_test.dir\\includes_CXX.rsp -std=gnu++14 -o CMakeFiles\\redis_test.dir\\tests\\redislitetesting.cpp.obj -c D:\\projects\\Crawler\\ds_library-Vivek\\CollectionsLib-RedisLite\\tests\\redislitetesting.cpp",
   "file": "D:/projects/Crawler/ds_library-Vivek/CollectionsLib-RedisLite/tests/redislitetesting.cpp",
   "output": "ds_library-Vivek/CollectionsLib-RedisLite/CMakeFiles/redis_test.dir/tests/redislitetesting.cpp.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/_deps/googletest-build/googlemock",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/gmock.dir/includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock.dir\\src\\gmock-all.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googlemock\\src\\gmock-all.cc",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\gmock.dir\\includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock.dir\\src\\gmock-all.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googlemock\\src\\gmock-all.cc",
   "file": "D:/projects/Crawler/build/_deps/googletest-src/googlemock/src/gmock-all.cc",
   "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/_deps/googletest-build/googlemock",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/gmock_main.dir/includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock_main.dir\\src\\gmock_main.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googlemock\\src\\gmock_main.cc",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\gmock_main.dir\\includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock_main.dir\\src\\gmock_main.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googlemock\\src\\gmock_main.cc",
   "file": "D:/projects/Crawler/build/_deps/googletest-src/googlemock/src/gmock_main.cc",
   "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/_deps/googletest-build/googletest",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/gtest.dir/includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest.dir\\src\\gtest-all.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googletest\\src\\gtest-all.cc",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\gtest.dir\\includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest.dir\\src\\gtest-all.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googletest\\src\\gtest-all.cc",
   "file": "D:/projects/Crawler/build/_deps/googletest-src/googletest/src/gtest-all.cc",
   "output": "_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj"
 },
 {
   "directory": "D:/projects/Crawler/build/_deps/googletest-build/googletest",
-  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles/gtest_main.dir/includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest_main.dir\\src\\gtest_main.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googletest\\src\\gtest_main.cc",
+  "command": "C:\\msys64\\ucrt64\\bin\\c++.exe  @CMakeFiles\\gtest_main.dir\\includes_CXX.rsp -std=c++14 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest_main.dir\\src\\gtest_main.cc.obj -c D:\\projects\\Crawler\\build\\_deps\\googletest-src\\googletest\\src\\gtest_main.cc",
   "file": "D:/projects/Crawler/build/_deps/googletest-src/googletest/src/gtest_main.cc",
   "output": "_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj"
 }

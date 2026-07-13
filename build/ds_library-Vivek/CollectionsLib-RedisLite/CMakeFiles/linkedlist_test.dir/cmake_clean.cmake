@@ -5,7 +5,7 @@ file(REMOVE_RECURSE
   "linkedlist_test.exe"
   "linkedlist_test.exe.manifest"
   "linkedlist_test.pdb"
-  "linkedlist_test[1]_tests.cmake"
+  "linkedlist_test_e3b0c442_tests.cmake"
 )
 
 # Per-language clean rules from dependency scanning.

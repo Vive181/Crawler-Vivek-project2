@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Crawler.dir/src/fetcher.cpp.obj.d"
   "CMakeFiles/Crawler.dir/src/frameworkdetector.cpp.obj"
   "CMakeFiles/Crawler.dir/src/frameworkdetector.cpp.obj.d"
+  "CMakeFiles/Crawler.dir/src/pagestorage.cpp.obj"
+  "CMakeFiles/Crawler.dir/src/pagestorage.cpp.obj.d"
   "CMakeFiles/Crawler.dir/src/renderengine.cpp.obj"
   "CMakeFiles/Crawler.dir/src/renderengine.cpp.obj.d"
   "CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj"

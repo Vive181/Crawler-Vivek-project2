@@ -5,7 +5,7 @@ file(REMOVE_RECURSE
   "parser_test.exe"
   "parser_test.exe.manifest"
   "parser_test.pdb"
-  "parser_test[1]_tests.cmake"
+  "parser_test_e3b0c442_tests.cmake"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -144,6 +144,22 @@ CMakeFiles/Crawler.dir/main.cpp.obj: D:\projects\Crawler\main.cpp \
  D:/projects/Crawler/include/FetchResult.h \
  D:/projects/Crawler/include/frameworkdetector.h \
  D:/projects/Crawler/include/fetchresult.h \
+ D:/projects/Crawler/include/pagestorage.h \
+ C:/msys64/ucrt64/include/mysql/mysql.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdarg.h \
+ C:/msys64/ucrt64/include/stdarg.h \
+ C:/msys64/ucrt64/include/_mingw_stdarg.h C:/msys64/ucrt64/include/time.h \
+ C:/msys64/ucrt64/include/sys/timeb.h \
+ C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
+ C:/msys64/ucrt64/include/_timeval.h \
+ C:/msys64/ucrt64/include/pthread_time.h \
+ C:/msys64/ucrt64/include/pthread_compat.h \
+ C:/msys64/ucrt64/include/sys/types.h \
+ C:/msys64/ucrt64/include/mysql/mariadb_com.h \
+ C:/msys64/ucrt64/include/mysql/mariadb_version.h \
+ C:/msys64/ucrt64/include/mysql/ma_list.h \
+ C:/msys64/ucrt64/include/mysql/mariadb_ctype.h \
+ C:/msys64/ucrt64/include/mysql/mariadb_stmt.h \
  D:/projects/Crawler/include/renderengine.h \
  C:/msys64/ucrt64/include/c++/16.1.0/memory \
  C:/msys64/ucrt64/include/c++/16.1.0/bits/stl_tempbuf.h \
@@ -156,16 +172,10 @@ CMakeFiles/Crawler.dir/main.cpp.obj: D:\projects\Crawler\main.cpp \
  C:/msys64/ucrt64/include/c++/16.1.0/ext/atomicity.h \
  C:/msys64/ucrt64/include/c++/16.1.0/x86_64-w64-mingw32/bits/gthr.h \
  C:/msys64/ucrt64/include/c++/16.1.0/x86_64-w64-mingw32/bits/gthr-default.h \
- C:/msys64/ucrt64/include/pthread.h C:/msys64/ucrt64/include/sys/types.h \
- C:/msys64/ucrt64/include/process.h \
+ C:/msys64/ucrt64/include/pthread.h C:/msys64/ucrt64/include/process.h \
  C:/msys64/ucrt64/include/corecrt_startup.h \
  C:/msys64/ucrt64/include/signal.h \
  C:/msys64/ucrt64/include/pthread_signal.h \
- C:/msys64/ucrt64/include/time.h C:/msys64/ucrt64/include/sys/timeb.h \
- C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
- C:/msys64/ucrt64/include/_timeval.h \
- C:/msys64/ucrt64/include/pthread_time.h \
- C:/msys64/ucrt64/include/pthread_compat.h \
  C:/msys64/ucrt64/include/sched.h \
  C:/msys64/ucrt64/include/pthread_unistd.h \
  C:/msys64/ucrt64/include/c++/16.1.0/x86_64-w64-mingw32/bits/atomic_word.h \
@@ -410,11 +420,8 @@ CMakeFiles/Crawler.dir/main.cpp.obj: D:\projects\Crawler\main.cpp \
  C:/msys64/ucrt64/include/winsock2.h \
  C:/msys64/ucrt64/include/_mingw_unicode.h \
  C:/msys64/ucrt64/include/windows.h C:/msys64/ucrt64/include/sdkddkver.h \
- C:/msys64/ucrt64/include/excpt.h \
- C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdarg.h \
- C:/msys64/ucrt64/include/stdarg.h \
- C:/msys64/ucrt64/include/_mingw_stdarg.h \
- C:/msys64/ucrt64/include/windef.h C:/msys64/ucrt64/include/minwindef.h \
+ C:/msys64/ucrt64/include/excpt.h C:/msys64/ucrt64/include/windef.h \
+ C:/msys64/ucrt64/include/minwindef.h \
  C:/msys64/ucrt64/include/specstrings.h C:/msys64/ucrt64/include/sal.h \
  C:/msys64/ucrt64/include/concurrencysal.h \
  C:/msys64/ucrt64/include/driverspecs.h C:/msys64/ucrt64/include/winnt.h \

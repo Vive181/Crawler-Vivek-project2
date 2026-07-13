@@ -4,7 +4,7 @@ file(REMOVE_RECURSE
   "doublylinkedlist_test.exe"
   "doublylinkedlist_test.exe.manifest"
   "doublylinkedlist_test.pdb"
-  "doublylinkedlist_test[1]_tests.cmake"
+  "doublylinkedlist_test_e3b0c442_tests.cmake"
   "libdoublylinkedlist_test.dll.a"
 )
 

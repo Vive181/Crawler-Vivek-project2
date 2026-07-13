@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/projects/Crawler/src/URLvalidator.cpp" "CMakeFiles/Crawler.dir/src/URLvalidator.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/URLvalidator.cpp.obj.d"
   "D:/projects/Crawler/src/fetcher.cpp" "CMakeFiles/Crawler.dir/src/fetcher.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/fetcher.cpp.obj.d"
   "D:/projects/Crawler/src/frameworkdetector.cpp" "CMakeFiles/Crawler.dir/src/frameworkdetector.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/frameworkdetector.cpp.obj.d"
+  "D:/projects/Crawler/src/pagestorage.cpp" "CMakeFiles/Crawler.dir/src/pagestorage.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/pagestorage.cpp.obj.d"
   "D:/projects/Crawler/src/renderengine.cpp" "CMakeFiles/Crawler.dir/src/renderengine.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/renderengine.cpp.obj.d"
   "D:/projects/Crawler/src/seenstorage.cpp" "CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj" "gcc" "CMakeFiles/Crawler.dir/src/seenstorage.cpp.obj.d"
   )

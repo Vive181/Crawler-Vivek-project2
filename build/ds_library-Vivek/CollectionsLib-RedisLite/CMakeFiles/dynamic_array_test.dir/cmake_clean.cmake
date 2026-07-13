@@ -4,7 +4,7 @@ file(REMOVE_RECURSE
   "dynamic_array_test.exe"
   "dynamic_array_test.exe.manifest"
   "dynamic_array_test.pdb"
-  "dynamic_array_test[1]_tests.cmake"
+  "dynamic_array_test_e3b0c442_tests.cmake"
   "libdynamic_array_test.dll.a"
 )
 

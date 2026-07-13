@@ -5,6 +5,7 @@
 #include "URLvalidator.h"
 #include "fetcher.h"
 #include "frameworkdetector.h"
+#include "pagestorage.h"
 #include "renderengine.h"
 #include "seenstorage.h"
 
@@ -37,6 +38,7 @@ int main() {
   Fetcher fetcher;
   FrameworkDetector detector;
   HTMLParser parser;
+  PageStorage pageStorage;
 
   std::string urls[] = {"https://example.com", "https://react.dev",
                         "https://nextjs.org", "https://angular.dev",
@@ -225,5 +227,19 @@ int main() {
   storage.clear();
 
   std::cout << "Size after clear: " << storage.size() << "\n";
+
+  bool stored = pageStorage.storePage(
+      "https://example.com", "<html><body><h1>Test Page</h1></body></html>", 0);
+
+  pageStorage.clear();
+
+  pageStorage.storePage("https://example.com", "<html>Version 1</html>", 0);
+
+  pageStorage.storePage("https://example.com", "<html>Version 2</html>", 1);
+
+  std::cout << "HTML: " << pageStorage.getPage("https://example.com") << "\n";
+
+  std::cout << "Page Count: " << pageStorage.pageCount() << "\n";
+
   return 0;
 }

@@ -332,29 +332,84 @@ The **URL Frontier** is implemented using a queue based on a **Doubly Linked Lis
 
 # Section 5 - Future Compatibility with Project 03 (Indexer)
 
-The URL Frontier and Page Storage are designed so they can later be integrated with the **Indexer**.
+The **URL Frontier** is designed to remain compatible with the future **Indexer** project. The Indexer does not directly modify or consume URLs from the frontier. Instead, the URL Frontier participates in the crawler pipeline by supplying URLs that eventually become stored webpages for the Indexer.
 
-| Function | Future Compatibility |
-|----------|----------------------|
-| `storePage(url, html, depth)` | Stores each crawled page and assigns it a unique ID. The Indexer later processes these pages. |
-| `getPage(url)` | Retrieves the HTML corresponding to a URL. |
-| `hasPage(url)` | Prevents duplicate page storage and verifies page existence. |
-| `getURLByID(id)` | Enables sequential traversal of stored pages using page IDs. |
-| `pageCount()` | Returns the total number of stored pages for indexing. |
+The interaction flow is:
 
----
+```text
+URL Frontier
+     |
+     | getNextURL()
+     v
+   Fetcher
+     |
+     | Fetch webpage content
+     v
+ Page Storage
+     |
+     | Store crawled page
+     v
+   Indexer
+```
 
-## Example Usage by Project 03 (Indexer)
+The URL Frontier methods interact with the future Indexer indirectly as follows:
+
+| URL Frontier Method           | Interaction with the Indexer                                                                                                                                                                                                                   |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `addURL(const URLNode& node)` | Adds newly discovered URLs to the crawling queue. These URLs may later be fetched, stored in Page Storage, and eventually processed by the Indexer.                                                                                            |
+| `getNextURL()`                | Provides the next URL to the crawler. After the webpage is successfully fetched and stored, its content becomes available for indexing.                                                                                                        |
+| `peekNextURL()`               | Allows the crawler controller to inspect the next URL before processing it. This can support future scheduling or prioritization strategies without affecting the Indexer's workflow.                                                          |
+| `isEmpty()`                   | Indicates whether any URLs are still waiting to be crawled. When the frontier becomes empty, the crawler has no remaining scheduled pages, helping determine when the crawling phase is complete and indexing can proceed on all stored pages. |
+| `size()`                      | Returns the number of URLs still waiting to be crawled. This can be used to monitor crawling progress before or during the indexing pipeline.                                                                                                  |
+| `clear()`                     | Removes all pending URLs from the frontier. This may be used when resetting or restarting a crawl before generating a new collection of pages for indexing.                                                                                    |
+
+## Interaction with the Indexer
+
+The URL Frontier and Indexer remain separate components with different responsibilities:
+
+* The **URL Frontier** manages which URLs should be crawled.
+* The **Fetcher** downloads the webpage content.
+* The **Page Storage** stores successfully crawled webpages.
+* The **Indexer** reads stored webpages and builds the inverted index.
+
+For example:
 
 ```cpp
-for (int id = 0; id < pageCount(); id++)
+while (!frontier.isEmpty())
 {
-    string url = getURLByID(id);
-    string html = getPage(url);
+    URLNode node = frontier.getNextURL();
 
-    // Extract words and build the inverted index
+    FetchResult result = fetcher.fetch(node.url);
+
+    if (result.success)
+    {
+        pageStorage.storePage(node.url, result.html, node.depth);
+    }
 }
 ```
+
+After pages have been stored, the future Indexer can process them:
+
+```cpp
+for (int id = 0; id < pageStorage.pageCount(); id++)
+{
+    std::string url = pageStorage.getURLByID(id);
+    std::string html = pageStorage.getPage(url);
+
+    // Parse the stored page
+    // Extract words
+    // Build the inverted index
+}
+```
+
+This design keeps the **URL Frontier independent from the Indexer** while still supporting the complete pipeline:
+
+```text
+URL Scheduling → Crawling → Page Storage → Indexing
+```
+
+Because the components communicate through clearly defined public APIs, the Indexer can be added in Project 03 without requiring major changes to the existing URL Frontier implementation.
+
 
 # Component 2 - Seen Storage
 
@@ -508,47 +563,110 @@ Rejected
 - **`clearSeenStorage()`** is **O(n)** in all cases because every stored entry must be removed and its allocated memory released exactly once.
 ---
 
-# Section 5 - Future Compatibility
+# Section 5 - Future Compatibility with Project 03 (Indexer)
 
-The Seen Storage is used only during the **crawling phase** to prevent duplicate URL discovery.
+The **Seen Storage** is primarily a crawler-side component, so the future **Indexer does not directly call its methods**. However, its methods indirectly affect the quality and efficiency of the indexing process by preventing duplicate URLs from entering the crawling pipeline.
 
-It is **not accessed by Project 03 (Indexer)** because the Indexer processes pages stored in Page Storage rather than URLs waiting to be crawled.
-
-Its purpose is to ensure that each URL is discovered and processed only once, improving crawler efficiency and preventing duplicate page downloads.
-
-| Method | Future Compatibility |
-|---------|----------------------|
-| `addSeenURL(url)` | Prevents duplicate URL discovery during crawling. Not used by the Indexer. |
-| `isSeen(url)` | Ensures each URL is crawled only once. Not used by the Indexer. |
-| `removeSeenURL(url)` *(Optional)* | Used only for crawler maintenance. Not required by the Indexer. |
-| `seenCount()` | Provides crawler statistics only. |
-| `clearSeenStorage()` | Resets the crawler before starting a new crawl session. |
-
----
-
-## Relationship with the Web Crawler
+The interaction flow is:
 
 ```text
 HTML Parser
-      │
-Extract URLs
-      │
-      ▼
- Seen Storage
-      │
-isSeen(URL)?
-      │
- ┌────┴────┐
- │         │
-Yes        No
- │          │
-Ignore   addSeenURL()
-            │
-            ▼
-      URL Frontier
+     |
+     | Extract URLs
+     v
+Seen Storage
+     |
+     | Unique URLs only
+     v
+URL Frontier
+     |
+     | Schedule URLs
+     v
+Fetcher
+     |
+     | Fetch webpage
+     v
+Page Storage
+     |
+     | Stored pages
+     v
+Indexer
 ```
 
-The Seen Storage acts as a **filter** between the HTML Parser and the URL Frontier, ensuring that each unique URL enters the frontier only once.
+The Seen Storage methods interact with the future Indexer indirectly as follows:
+
+| Seen Storage Method               | Interaction with the Future Indexer                                                                                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `addSeenURL(url)`                 | Records a newly discovered normalized URL so that it enters the crawling pipeline only once. This reduces the possibility of duplicate webpages being fetched and later processed by the Indexer.                         |
+| `isSeen(url)`                     | Checks whether a URL has already been discovered before it is added to the URL Frontier. By filtering duplicate URLs early, it helps ensure that the Indexer receives a cleaner collection of stored webpages.            |
+| `removeSeenURL(url)` *(Optional)* | Allows a URL to be removed from Seen Storage, making future rediscovery or recrawling possible. If the page is fetched and stored again, the updated content may later be processed by a future re-indexing mechanism.    |
+| `seenCount()`                     | Provides the number of unique URLs discovered during crawling. This value can be used as a crawler statistic and may help compare the number of discovered URLs with the number of successfully stored and indexed pages. |
+| `clearSeenStorage()`              | Resets the collection of discovered URLs before a new crawling session. This allows the crawler to build a fresh collection of pages that can later be processed by the Indexer.                                          |
+
+## Indirect Interaction with the Indexer
+
+The Indexer does not need direct access to the Seen Storage. Instead, the Seen Storage improves the input that eventually reaches the Indexer.
+
+For example:
+
+```cpp
+if (!seenStorage.isSeen(normalizedURL))
+{
+    seenStorage.addSeenURL(normalizedURL);
+    frontier.addURL(URLNode(normalizedURL, depth));
+}
+```
+
+The URL is then processed by the crawler:
+
+```cpp
+URLNode node = frontier.getNextURL();
+
+FetchResult result = fetcher.fetch(node.url);
+
+if (result.success)
+{
+    pageStorage.storePage(node.url, result.html, node.depth);
+}
+```
+
+Later, the future Indexer processes the successfully stored pages:
+
+```cpp
+for (int id = 0; id < pageStorage.pageCount(); id++)
+{
+    std::string url = pageStorage.getURLByID(id);
+    std::string html = pageStorage.getPage(url);
+
+    // Parse page content
+    // Extract words
+    // Build the inverted index
+}
+```
+
+Therefore, the complete relationship is:
+
+```text
+Seen Storage
+     |
+     | Prevents duplicate URL discovery
+     v
+URL Frontier
+     |
+     | Schedules unique URLs
+     v
+Fetcher
+     |
+     | Downloads pages
+     v
+Page Storage
+     |
+     | Provides stored pages
+     v
+Indexer
+```
+
+The **Seen Storage and Indexer remain independent components**. The Indexer does not directly invoke Seen Storage methods, but Seen Storage supports the future indexing process by ensuring that duplicate URLs are filtered before they can produce unnecessary duplicate crawling and indexing work.
 
 # Component 3 - Page Storage
 
@@ -564,17 +682,14 @@ The Page Storage module is also designed to support future scalability for handl
 
 # Section 1 - Public API
 
-| Method | Return Type | Parameters | Purpose |
-|---------|-------------|------------|---------|
-| `storePage(Page page)` | `bool` | `Page page` | Stores a newly crawled web page and returns `true` if the operation succeeds. |
-| `getPage(string url)` | `Page` | `string url` | Retrieves the stored page corresponding to the specified URL. |
-| `updatePage(Page page)` | `bool` | `Page page` | Updates the HTML content or metadata of an existing page. |
-| `deletePage(string url)` | `bool` | `string url` | Removes the page associated with the specified URL. |
-| `pageExists(string url)` | `bool` | `string url` | Checks whether a page with the specified URL already exists. |
-| `getAllPages()` | `vector<Page>` | None | Returns all stored pages for indexing or further processing. |
-| `getPageMetadata(string url)` | `PageMetadata` | `string url` | Returns metadata associated with the specified page. |
-| `clearStorage()` | `void` | None | Removes all stored pages and resets the storage. |
-
+| Method                            | Parameters                                                                 | Return Type   | Purpose                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------------- | -------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`storePage(url, html, depth)`** | `url : const std::string&`<br>`html : const std::string&`<br>`depth : int` | `bool`        | Stores a crawled webpage in the `pages` table together with its normalized URL, HTML content, and crawl depth. If the URL already exists, the existing HTML content and depth are updated instead of creating a duplicate record. The method returns `true` when the database operation succeeds and `false` when the page cannot be stored.                                   |
+| **`getPage(url)`**                | `url : const std::string&`                                                 | `std::string` | Retrieves the complete HTML content associated with the specified URL from Page Storage. This allows other components, especially the future Indexer, to access previously crawled webpage content without downloading the page again. If the URL does not exist or the database operation fails, an empty string is returned.                                                 |
+| **`hasPage(url)`**                | `url : const std::string&`                                                 | `bool`        | Checks whether a webpage with the specified URL already exists in Page Storage. This operation can be used to verify successful storage and prevent unnecessary database operations. It returns `true` when a matching page exists and `false` when no matching record is found or the database query fails.                                                                   |
+| **`pageCount()`**                 | None                                                                       | `int`         | Returns the total number of webpages currently stored in the `pages` table. This method can be used to monitor crawling progress, generate storage statistics, and determine how many pages are available for future processing by components such as the Indexer. A value of `-1` is returned if the database query fails.                                                    |
+| **`removePage(url)`**             | `url : const std::string&`                                                 | `bool`        | Removes the webpage associated with the specified URL from Page Storage. The method can be used for storage maintenance, testing, cleanup, or removing pages that should no longer be available for future indexing. It returns `true` only when an existing database record is successfully deleted and `false` when no matching page exists or the deletion operation fails. |
+| **`clear()`**                     | None                                                                       | `void`        | Removes all stored webpages from the `pages` table, resetting Page Storage to an empty state. This operation is useful when starting a completely new crawling session, performing testing, or clearing previously collected data before rebuilding the stored webpage collection.                                                                                             |
 ---
 
 ## Class Definition
@@ -583,21 +698,19 @@ The Page Storage module is also designed to support future scalability for handl
 class PageStorage
 {
 public:
-    bool storePage(Page page);
+    bool storePage(const std::string& url,
+                   const std::string& html,
+                   int depth);
 
-    Page getPage(string url);
+    std::string getPage(const std::string& url);
 
-    bool updatePage(Page page);
+    bool hasPage(const std::string& url);
 
-    bool deletePage(string url);
+    int pageCount();
 
-    bool pageExists(string url);
+    bool removePage(const std::string& url);
 
-    vector<Page> getAllPages();
-
-    PageMetadata getPageMetadata(string url);
-
-    void clearStorage();
+    void clear();
 };
 ```
 
@@ -682,204 +795,226 @@ Depth:
 
 ---
 
-# Section 3 - Failure Handling
+# Section 3 - Failure Handling and Edge Cases
 
-The Page Storage module must handle several failure scenarios to ensure reliable operation.
+The **Page Storage** component must handle database failures, invalid input, duplicate pages, and unexpected webpage content without crashing the crawler. Since Page Storage is responsible for persistent storage, failures should be detected and reported to the crawler so that appropriate actions such as logging, retrying, or skipping the page can be performed.
 
-| Exception | Handling Strategy |
-|-----------|-------------------|
-| **Invalid URLs** | Validate the URL before storing. Reject malformed or unsupported URLs, log the error, and return failure. |
-| **Duplicate URLs** | Check whether the page already exists. Skip storing or update the existing page according to the crawler's update policy. |
-| **Download Failures** | Do not store pages that failed to download due to network errors, timeouts, or HTTP failures. Log the error and optionally schedule a retry. |
-| **Malformed HTML** | Store the HTML if possible and mark the page as **Malformed** in the metadata. |
-| **Empty Pages** | Store only minimal metadata or discard the page according to crawler policy. Mark the page with an **Empty Page** status. |
+| Failure / Edge Case                           | Handling Strategy                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **MySQL Initialization Failure**              | If `mysql_init()` fails while creating the database connection object, the `PageStorage` constructor throws a `std::runtime_error`. The component is not created because database operations cannot be performed without a valid MySQL connection.                                                                                  |
+| **Missing Database Password**                 | The database password is obtained from the `CRAWLER_DB_PASSWORD` environment variable. If the variable is not set, the partially initialized MySQL connection is closed and the constructor throws a `std::runtime_error`, preventing the application from continuing with invalid credentials.                                     |
+| **Database Connection Failure**               | If `mysql_real_connect()` fails because of incorrect credentials, an unavailable MySQL server, an invalid database name, or another connection problem, the connection is closed and a `std::runtime_error` containing the MySQL error message is thrown.                                                                           |
+| **Prepared Statement Initialization Failure** | If `mysql_stmt_init()` fails, methods such as `storePage()`, `getPage()`, `hasPage()`, and `removePage()` return their failure value without attempting further database operations.                                                                                                                                                |
+| **SQL Statement Preparation Failure**         | If `mysql_stmt_prepare()` fails because of an invalid query or database schema problem, the prepared statement is closed to prevent resource leakage and the method returns an appropriate failure value.                                                                                                                           |
+| **Parameter Binding Failure**                 | If input parameters cannot be bound to a prepared statement, the statement is closed and the operation is terminated. Prepared statements are used to safely handle URLs and HTML content containing special characters.                                                                                                            |
+| **Duplicate URL**                             | The `url` column is expected to have a unique constraint. When `storePage()` receives an existing URL, `ON DUPLICATE KEY UPDATE` updates the stored HTML, crawl depth, and `crawled_at` timestamp instead of creating a duplicate database record.                                                                                  |
+| **Empty URL**                                 | An empty URL should be rejected before calling `storePage()`, because it does not identify a valid webpage. URL validation is primarily the responsibility of the URL Validator, but Page Storage may also perform an additional defensive check if required.                                                                       |
+| **Empty HTML Content**                        | A page may legitimately contain an empty response body. The current implementation can store empty HTML, but `getPage()` also returns an empty string when a page is missing or retrieval fails. Therefore, `hasPage()` should be used when it is necessary to distinguish an existing page with empty content from a missing page. |
+| **Very Large HTML Content**                   | HTML is bound using `MYSQL_TYPE_LONG_BLOB`, allowing large webpage content to be stored. However, storage may still fail if the content exceeds MySQL configuration limits, available database storage, or packet-size restrictions. In such cases, `storePage()` returns `false`.                                                  |
+| **Special Characters or Binary Data in HTML** | HTML may contain quotes, Unicode characters, null bytes, or other special data. Prepared statements and explicit content lengths are used so that the content is handled safely without manually constructing SQL queries.                                                                                                          |
+| **Page Not Found During Retrieval**           | If `getPage()` cannot find a matching URL, it returns an empty string. The caller can use `hasPage()` when it needs to determine whether the page actually exists.                                                                                                                                                                  |
+| **Page Not Found During Deletion**            | If `removePage()` executes successfully but no row matches the specified URL, `mysql_stmt_affected_rows()` returns zero and the method returns `false`, indicating that no stored page was removed.                                                                                                                                 |
+| **Database Query Execution Failure**          | If statement execution fails because of a lost connection, database error, or server problem, the operation is terminated, allocated statement resources are released, and the method returns its defined failure value.                                                                                                            |
+| **Page Count Query Failure**                  | If the `COUNT(*)` query fails, the result cannot be retrieved, or no result row is returned, `pageCount()` returns `-1`. This distinguishes a database failure from a valid page count of `0`.                                                                                                                                      |
+| **Clear Operation Failure**                   | The current `clear()` method returns `void`, so a failure of `DELETE FROM pages` is not reported to the caller. A future implementation may return `bool` or log the MySQL error so that cleanup failures can be detected.                                                                                                          |
+| **Resource Cleanup**                          | Every prepared statement and query result is explicitly released after use. The destructor closes the MySQL connection if it is valid, preventing database connection and resource leaks.                                                                                                                                           |
 
----
+## Failure Return Values
 
-## Examples
+The Page Storage API uses the following values to indicate unsuccessful operations:
 
-### Invalid URL
+| Method         | Failure Result                                     |
+| -------------- | -------------------------------------------------- |
+| `storePage()`  | Returns `false`                                    |
+| `getPage()`    | Returns an empty string `""`                       |
+| `hasPage()`    | Returns `false`                                    |
+| `pageCount()`  | Returns `-1`                                       |
+| `removePage()` | Returns `false`                                    |
+| `clear()`      | No failure value because the return type is `void` |
 
-```text
-URL
-
-htp://example.com
-
-Result
-
-Rejected
-```
-
----
-
-### Duplicate Page
-
-```text
-Stored Pages
-
-https://example.com
-
-New Page
-
-https://example.com
-
-Result
-
-Already Exists
-
-Skipped
-```
-
----
-
-### Download Failure
-
-```text
-Download
-
-https://example.com
-
-Timeout
-
-Result
-
-Not Stored
-
-Logged
-```
-
----
-
-### Malformed HTML
-
-```html
-<html>
-
-<body>
-
-<a href="page.html">
-
-<div>
-
-<p>Missing closing tags
-```
-
-Result
-
-```text
-Stored
-
-Metadata
-
-Malformed = true
-```
-
----
-
-### Empty Page
-
-```text
-Downloaded HTML
-
-(empty)
-```
-
-Result
-
-```text
-Status
-
-Empty Page
-
-Minimal Metadata Stored
-```
+This failure-handling strategy allows the crawler to continue operating when individual storage operations fail while treating critical initialization and database connection failures as exceptions that prevent Page Storage from being created.
 
 ---
 
 # Section 4 - Complexity Analysis
 
-| Method | Purpose | Best | Average | Worst |
-|---------|---------|------|----------|-------|
-| `storePage()` | Stores a newly crawled page. | O(1) | O(1) | O(n) |
-| `getPage()` | Retrieves a page using its URL. | O(1) | O(1) | O(n) |
-| `updatePage()` | Updates page content or metadata. | O(1) | O(1) | O(n) |
-| `deletePage()` | Removes a stored page. | O(1) | O(1) | O(n) |
-| `pageExists()` | Checks whether a page exists. | O(1) | O(1) | O(n) |
-| `getAllPages()` | Returns all stored pages. | O(n) | O(n) | O(n) |
-| `getPageMetadata()` | Retrieves metadata for a page. | O(1) | O(1) | O(n) |
-| `clearStorage()` | Removes all stored pages. | O(n) | O(n) | O(n) |
+The **Page Storage** component uses a MySQL database to persist crawled webpages. The `url` column is expected to have a **UNIQUE index**, allowing MySQL to locate pages efficiently. Therefore, operations that search by URL generally have **O(log n)** complexity when MySQL uses its typical B-tree index structure.
+
+Here, **n** represents the total number of pages stored in the `pages` table.
+
+| Method             | Best Case    | Average Case | Worst Case | Purpose                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------ | ------------ | ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`storePage()`**  | **O(log n)** | **O(log n)** | **O(n)**   | Stores a new webpage or updates an existing page when the URL already exists. MySQL must check the unique index on the `url` column before inserting the record. Indexed lookup generally requires **O(log n)** time, while the worst case may degrade because of database overhead, index maintenance, or storage-related conditions. The actual cost also depends on the size of the HTML content being written. |
+| **`getPage()`**    | **O(log n)** | **O(log n)** | **O(n)**   | Retrieves the HTML content associated with a specific URL. Since the query searches using the indexed `url` column, MySQL can locate the corresponding row efficiently without scanning the entire table. The operation may degrade to **O(n)** if the required index is unavailable or a full table scan occurs. Returning the HTML also requires time proportional to the size of the stored HTML content.       |
+| **`hasPage()`**    | **O(log n)** | **O(log n)** | **O(n)**   | Checks whether a page exists by executing `SELECT 1 FROM pages WHERE url = ? LIMIT 1`. The indexed URL allows MySQL to locate the record efficiently. Without an effective index, the database may need to scan multiple or all stored rows, resulting in linear time.                                                                                                                                             |
+| **`pageCount()`**  | **O(1)**     | **O(1)**     | **O(n)**   | Executes `SELECT COUNT(*) FROM pages` to determine the total number of stored pages. The exact complexity depends on the MySQL storage engine and database implementation. The operation may be optimized in some cases, but it can require scanning rows or index entries, resulting in **O(n)** in the worst case.                                                                                               |
+| **`removePage()`** | **O(log n)** | **O(log n)** | **O(n)**   | Removes the page associated with a specific URL. MySQL first locates the row through the URL index and then deletes the record while updating the relevant indexes. Indexed lookup generally takes **O(log n)**, while a missing or ineffective index may require a linear scan.                                                                                                                                   |
+| **`clear()`**      | **O(n)**     | **O(n)**     | **O(n)**   | Executes `DELETE FROM pages`, which removes every stored page from the table. Since all **n** records must be deleted and associated database resources and indexes must be updated, the execution time grows linearly with the number of stored pages.                                                                                                                                                            |
+
+## Complexity Justification
+
+* **Indexed URL Operations – O(log n):**
+  `storePage()`, `getPage()`, `hasPage()`, and `removePage()` operate using the `url` column. With a UNIQUE B-tree index on this column, MySQL can locate the required record in approximately **O(log n)** time.
+
+* **Worst Case – O(n):**
+  If the database cannot use the URL index, a full table scan may be required. In this situation, MySQL may inspect up to all **n** stored records.
+
+* **HTML Content Size – O(h):**
+  For `storePage()` and `getPage()`, the size of the HTML content also affects execution time. If **h** represents the number of bytes in the HTML document, storing or retrieving the content requires approximately **O(h)** additional work. Therefore, a more precise complexity can be expressed as **O(log n + h)**.
+
+* **`pageCount()` – Database Dependent:**
+  The performance of `COUNT(*)` depends on the MySQL storage engine and query execution strategy. It may be optimized in some situations, but a complete scan can require **O(n)** time.
+
+* **`clear()` – O(n):**
+  The current implementation uses `DELETE FROM pages`, which removes stored rows and updates database structures. Therefore, its complexity is considered **O(n)**.
+
+## Summary
+
+* **Indexed operations:** `storePage()`, `getPage()`, `hasPage()`, and `removePage()` generally operate in **O(log n)** time.
+* **Content transfer:** `storePage()` and `getPage()` additionally depend on HTML size, giving a more precise complexity of **O(log n + h)**.
+* **Full-storage operation:** `clear()` requires **O(n)** time.
+* **Database-dependent operation:** `pageCount()` may range from an optimized operation to **O(n)** depending on the storage engine and execution strategy.
+
 
 ---
 
-# Section 5 - Future Compatibility
+# Section 5 - Future Compatibility with Project 03 (Indexer)
 
-The **Indexer (Project 03)** will use the Page Storage module as its primary data source.
+The **Page Storage** component will act as the primary connection between the current **Web Crawler** and the future **Indexer (Project 03)**. Unlike the URL Frontier and Seen Storage, which interact with the Indexer only indirectly, Page Storage will provide the actual webpage content that the Indexer needs to process.
 
-The crawler stores every downloaded webpage, and the indexer later retrieves those stored pages to:
+The crawler stores successfully downloaded webpages in Page Storage. The future Indexer can then retrieve these stored pages, extract textual content, tokenize words, calculate term frequencies, and build an inverted index for keyword searching.
 
-- Extract words
-- Build the inverted index
-- Generate document IDs
-- Support keyword searching
+The interaction flow is:
 
----
+```text id="x4xgzq"
+Web Crawler
+     |
+     | storePage()
+     v
+Page Storage
+     |
+     | Stored URL + HTML + Depth
+     v
+MySQL Database
+     |
+     | Retrieve stored pages
+     v
+Future Indexer
+     |
+     | Parse and tokenize content
+     v
+Inverted Index
+```
 
-## Future API
+## Interaction of Page Storage Methods with the Future Indexer
 
-| Method | Return Type | Parameters | Purpose | Used by Indexer |
-|---------|-------------|------------|---------|-----------------|
-| `storePage(string url, string html, int depth)` | `void` | `string url, string html, int depth` | Stores the crawled page. | No |
-| `getPage(string url)` | `string` | `string url` | Returns the HTML content for indexing. | Yes |
-| `hasPage(string url)` | `bool` | `string url` | Checks whether a page already exists. | Yes |
-| `getURLByID(int id)` | `string` | `int id` | Returns the URL corresponding to a page ID. | Yes |
-| `pageCount()` | `int` | None | Returns the total number of stored pages. | Yes |
+| Page Storage Method           | Interaction with the Future Indexer                                                                                                                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storePage(url, html, depth)` | Stores the URL, downloaded HTML content, and crawl depth of a successfully fetched webpage. Although this method is primarily called by the crawler, it creates the persistent collection of documents that will later serve as the input dataset for the Indexer.            |
+| `getPage(url)`                | Retrieves the complete stored HTML content of a webpage using its URL. The future Indexer can use this method to obtain the page content, remove HTML tags, extract visible text, tokenize words, and generate index entries.                                                 |
+| `hasPage(url)`                | Checks whether a webpage exists in Page Storage. The Indexer can use this method before requesting a page to verify that the document is available and avoid attempting to process a missing record.                                                                          |
+| `pageCount()`                 | Returns the total number of webpages stored by the crawler. The Indexer can use this value to monitor the number of available documents, calculate indexing progress, and determine the size of the crawled document collection.                                              |
+| `removePage(url)`             | Removes a stored webpage from Page Storage. If a page is deleted before indexing, it will no longer be available to the Indexer. In a future integrated system, removing an already indexed page may also require removing its corresponding entries from the inverted index. |
+| `clear()`                     | Removes all stored webpages from Page Storage. When the stored document collection is cleared, the existing index may also need to be cleared or rebuilt because its indexed documents would no longer correspond to the pages available in storage.                          |
 
----
+## Example Interaction with the Future Indexer
 
-## Example Usage by Project 03 (Indexer)
+The crawler first stores successfully downloaded webpages:
 
-```cpp
-for (int id = 0; id < pageCount(); id++)
+```cpp id="40g9gu"
+FetchResult result = fetcher.fetch(node.url);
+
+if (result.success)
 {
-    string url = getURLByID(id);
-
-    string html = getPage(url);
-
-    // Extract words
-
-    // Build inverted index
-
-    // Store term frequencies
+    pageStorage.storePage(
+        node.url,
+        result.html,
+        node.depth
+    );
 }
 ```
 
----
+The future Indexer can then retrieve a stored page:
 
-# Relationship with the Web Crawler
+```cpp id="42y0u8"
+if (pageStorage.hasPage(url))
+{
+    std::string html = pageStorage.getPage(url);
 
-```text
-Fetcher
-    │
-    ▼
-Downloaded HTML
-    │
-    ▼
-Page Storage
-    │
-    ├───────────────┐
-    │               │
-    ▼               ▼
-Metadata        HTML Content
-    │               │
-    └──────┬────────┘
-           ▼
-     Database / MySQL
-           │
-           ▼
-     Indexer (Project 03)
+    // Remove HTML tags
+    // Extract visible text
+    // Tokenize words
+    // Calculate term frequencies
+    // Add terms to the inverted index
+}
 ```
 
-The Page Storage module serves as the persistent storage layer of the crawler. Every successfully downloaded webpage is stored once, enriched with metadata, and made available for future indexing, searching, and analysis.
+The `pageCount()` method can also be used to monitor indexing progress:
+
+```cpp id="2a4yru"
+int totalPages = pageStorage.pageCount();
+
+// Use totalPages to track the number
+// of documents available for indexing.
+```
+
+## Future API Extension for Sequential Indexing
+
+The current Page Storage API retrieves pages using their URLs. For Project 03, an additional method such as `getURLByID(int id)` or `getAllPages()` may be added so that the Indexer can iterate through every stored webpage without already knowing its URL.
+
+For example:
+
+```cpp id="2gtizn"
+for (int id = 1; id <= pageStorage.pageCount(); id++)
+{
+    std::string url = pageStorage.getURLByID(id);
+    std::string html = pageStorage.getPage(url);
+
+    // Extract text
+    // Tokenize words
+    // Build inverted index
+}
+```
+
+The possible future method would be:
+
+```cpp id="o42a1x"
+std::string getURLByID(int id);
+```
+
+This method would allow the Indexer to retrieve URLs sequentially using the unique page IDs assigned by the database.
+
+## Relationship with the Web Crawler and Indexer
+
+```text id="kx9rx1"
+Fetcher
+    |
+    | Downloaded HTML
+    v
+Page Storage
+    |
+    | storePage()
+    v
+MySQL Database
+    |
+    +-----------------------+
+    |                       |
+    | getPage()             | pageCount()
+    | hasPage()             | Future: getURLByID()
+    v                       v
+           Future Indexer
+                 |
+                 | Extract text and words
+                 v
+           Inverted Index
+                 |
+                 v
+          Keyword Searching
+```
+
+The **Page Storage component serves as the persistent data bridge between the Web Crawler and the future Indexer**. The crawler is responsible for collecting and storing webpages, while the Indexer is responsible for reading those stored webpages and transforming their content into a searchable inverted index.
+
+Because both components interact through the Page Storage public API, the future Indexer can be integrated without requiring major changes to the crawler's internal implementation.
 
 # Component 4 - HTML parser
 
@@ -887,162 +1022,481 @@ The Page Storage module serves as the persistent storage layer of the crawler. E
 
 The objective of the HTML Parser module is to analyze the downloaded HTML content of a webpage, convert it into a structured format, and extract useful information such as page titles, headings, paragraphs, hyperlinks, images, and metadata. This structured data enables the web crawler to discover new URLs for further crawling and store relevant webpage content for indexing, analysis, or search.
 
-# Section 1 Public API
+# Section 1 - Public API
 
+The **HTML Parser** component is responsible for analyzing the HTML content downloaded by the Fetcher and extracting hyperlinks that can be processed by the crawler. It identifies anchor (`<a>`) elements, extracts their `href` values, filters unsupported or non-crawlable links, and converts relative URLs into absolute URLs using the webpage's base URL.
 
-| Method | Return Type | Parameters | Purpose |
-|---------|------------|------------|---------|
-| `bool parseHTML(const std::string& html)` | `bool` | `html` - Raw HTML document | Parses the HTML document and initializes the parser. Returns `true` if parsing is successful; otherwise returns `false`. |
-| `std::string extractTitle() const` | `std::string` | None | Returns the content of the `<title>` tag. |
-| `std::vector<std::string> extractHeadings() const` | `std::vector<std::string>` | None | Extracts all heading elements (`<h1>` to `<h6>`). |
-| `std::vector<std::string> extractParagraphs() const` | `std::vector<std::string>` | None | Extracts text from all paragraph (`<p>`) elements. |
-| `std::vector<std::string> extractLinks() const` | `std::vector<std::string>` | None | Extracts all hyperlinks from `<a href="">` elements. |
-| `std::vector<std::string> extractImages() const` | `std::vector<std::string>` | None | Extracts image URLs from `<img src="">` elements. |
-| `std::map<std::string, std::string> extractMetaData() const` | `std::map<std::string, std::string>` | None | Extracts metadata such as description, keywords, author, and other meta tags. |
-| `std::string getPlainText() const` | `std::string` | None | Returns the visible text content of the webpage after removing HTML tags. |
-| `bool isParsed() const` | `bool` | None | Returns `true` if the HTML document has been successfully parsed; otherwise returns `false`. |
-| `void clear()` | `void` | None | Clears all stored parser data and resets the parser state. |
+The extracted URLs can then be passed through the remaining crawler pipeline, including the **URL Validator**, **URL Normalizer**, **Seen Storage**, and **URL Frontier**.
 
-# Section 2 Internal Implementation
+| Method                               | Parameters                                                    | Return Type                | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------ | ------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`extractLinks(html, baseURL)`**    | `html : const std::string&`<br>`baseURL : const std::string&` | `std::vector<std::string>` | Extracts hyperlinks from the supplied HTML document. The method searches for valid `<a>` tags and identifies their `href` attributes in a case-insensitive manner. It supports double-quoted, single-quoted, and unquoted `href` values. Links such as page fragments, JavaScript actions, email addresses, and telephone links are ignored. Valid relative links are converted into absolute URLs using the provided `baseURL`, and the resulting collection of crawlable URLs is returned to the crawler. |
+| **`isIgnoredLink(link)`**            | `link : const std::string&`                                   | `bool`                     | Determines whether an extracted link should be excluded from the crawling pipeline. The method rejects empty links, fragment-only references beginning with `#`, JavaScript links using `javascript:`, email links using `mailto:`, and telephone links using `tel:`. It returns `true` when the link should be ignored and `false` when the link can continue through URL resolution and subsequent crawler processing.                                                                                    |
+| **`makeAbsoluteURL(link, baseURL)`** | `link : const std::string&`<br>`baseURL : const std::string&` | `std::string`              | Converts a discovered link into an absolute URL that can be processed by the crawler. The method preserves URLs that are already absolute and resolves protocol-relative URLs, root-relative paths, current-directory paths, normal relative paths, and parent-directory paths such as `../` and `../../`. The provided `baseURL` is used to determine the protocol, origin, and current directory required to construct the final URL.                                                                     |
 
-The HTML Parser uses a lightweight sequential scanning approach to extract hyperlinks from an HTML document. Instead of constructing a Document Object Model (DOM), the parser directly scans the HTML string to locate anchor (`<a>`) tags and their corresponding `href` attributes. This approach reduces memory usage and improves performance, making it suitable for web crawling applications where only hyperlinks are required.
+### Class Definition
 
-### Processing Steps
+class HTMLParser
+{
+public:
+    HTMLParser();
 
-1. Receive the raw HTML document as a string.
-2. Initialize the scanning position at the beginning of the document.
-3. Search for the next occurrence of the `<a` tag.
-4. Locate the `href` attribute within the anchor tag.
-5. Verify that the `href` attribute contains a valid quoted URL.
-6. Extract the URL between the quotation marks.
-7. Store the extracted URL in a `std::vector<std::string>`.
-8. Continue scanning from the end of the current tag until the end of the HTML document is reached.
-9. Return the collection of extracted hyperlinks.
+    std::vector<std::string> extractLinks(
+        const std::string& html,
+        const std::string& baseURL
+    );
+
+private:
+    bool isIgnoredLink(
+        const std::string& link
+    );
+
+    std::string makeAbsoluteURL(
+        const std::string& link,
+        const std::string& baseURL
+    );
+};
+```
+
+# Section 2 - Internal Implementation
+
+The **HTML Parser** uses a lightweight string-processing approach to extract hyperlinks from an HTML document without constructing a complete **Document Object Model (DOM)**. The parser works directly on the raw HTML string and uses the **Knuth-Morris-Pratt (KMP) string-searching algorithm** to efficiently locate anchor (`<a>`) tags and `href` attributes.
+
+The parser first creates a lowercase copy of the HTML document so that HTML tags can be searched in a case-insensitive manner while preserving the original HTML content for URL extraction. Each valid anchor tag is inspected individually, and its `href` value is extracted, filtered, and converted into an absolute URL when necessary.
+
+---
+
+## Processing Steps
+
+1. Receive the raw HTML document and the webpage's base URL.
+
+2. Create a lowercase copy of the HTML document to support case-insensitive searching without modifying the original HTML.
+
+3. Use the **KMP search algorithm** to locate all occurrences of `<a` in the HTML document.
+
+4. Verify that each `<a` occurrence represents a valid anchor tag by checking the character immediately following `a`.
+
+5. Locate the closing `>` character of the anchor tag.
+
+6. Extract the complete anchor tag from the original HTML document.
+
+7. Create a lowercase copy of the extracted tag and use KMP to search for the `href` attribute.
+
+8. Verify that the detected `href` is a valid attribute and is properly separated from other attribute names.
+
+9. Skip whitespace between `href`, the assignment operator (`=`), and the attribute value.
+
+10. Extract the URL from the `href` attribute. The parser supports:
+
+    * Double-quoted values: `href="page.html"`
+    * Single-quoted values: `href='page.html'`
+    * Unquoted values: `href=page.html`
+
+11. Pass the extracted link to `isIgnoredLink()` to reject non-crawlable links such as:
+
+    * Empty links
+    * Fragment links beginning with `#`
+    * `javascript:` links
+    * `mailto:` links
+    * `tel:` links
+
+12. Pass valid links to `makeAbsoluteURL()` to resolve relative URLs using the current page's base URL.
+
+13. Store the resulting absolute URL in a `std::vector<std::string>`.
+
+14. Repeat the process for every detected anchor tag.
+
+15. Return the collection of extracted and resolved hyperlinks.
 
 ---
 
 ## Internal Data Structures
 
-| Data Structure | Purpose |
-|----------------|---------|
-| `std::string` | Stores the raw HTML document. |
-| `std::vector<std::string>` | Stores the extracted hyperlinks. |
-| `size_t` | Maintains the current scanning position within the HTML document. |
+| Data Structure             | Purpose                                                                                                                                           |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `std::string`              | Stores the original HTML document, lowercase HTML copy, extracted anchor tags, `href` values, base URLs, and intermediate URL-resolution results. |
+| `std::vector<std::string>` | Stores the final collection of extracted URLs that are returned to the crawler.                                                                   |
+| `std::vector<size_t>`      | Stores the positions returned by the KMP search algorithm for occurrences of `<a` tags and `href` attributes.                                     |
+| `size_t`                   | Stores string positions and offsets while locating tags, attributes, quotation marks, URL paths, and protocol boundaries.                         |
+| `char`                     | Used to inspect individual characters when validating tags, skipping whitespace, detecting quotation marks, and processing case conversion.       |
 
 ---
 
 ## Internal Workflow
 
 ```text
-Raw HTML
-    │
-    ▼
-Sequential Scanner
-    │
-    ▼
-Find "<a"
-    │
-    ▼
-Find "href="
-    │
-    ▼
-Extract URL
-    │
-    ▼
-Validate URL
-    │
-    ▼
-Store in Vector
-    │
-    ▼
-Repeat Until End of Document
-    │
-    ▼
-Return Extracted Links
+Raw HTML + Base URL
+        |
+        v
+Create Lowercase HTML Copy
+        |
+        v
+KMP Search for "<a"
+        |
+        v
+Validate Anchor Tag
+        |
+        v
+Find Closing ">"
+        |
+        v
+Extract Complete Anchor Tag
+        |
+        v
+Create Lowercase Tag Copy
+        |
+        v
+KMP Search for "href"
+        |
+        v
+Validate href Attribute
+        |
+        v
+Skip Whitespace and "="
+        |
+        v
+Extract href Value
+        |
+        +----------------------+
+        |                      |
+        v                      v
+  Quoted Value           Unquoted Value
+        |                      |
+        +----------+-----------+
+                   |
+                   v
+          isIgnoredLink()
+                   |
+          +--------+--------+
+          |                 |
+       Ignored            Valid
+          |                 |
+          v                 v
+        Skip       makeAbsoluteURL()
+                            |
+                            v
+                  Store in Vector
+                            |
+                            v
+                    Process Next Tag
+                            |
+                            v
+                Return Extracted Links
 ```
+
+---
+
+## URL Resolution Strategy
+
+The `makeAbsoluteURL()` helper method converts different types of discovered links into URLs that can be processed by the crawler.
+
+| Link Type                   | Example                    | Handling                                                                               |
+| --------------------------- | -------------------------- | -------------------------------------------------------------------------------------- |
+| Absolute URL                | `https://example.com/page` | Returned without modification.                                                         |
+| Protocol-relative URL       | `//example.com/page`       | Uses the protocol from the base URL.                                                   |
+| Root-relative URL           | `/about`                   | Combined with the origin of the base URL.                                              |
+| Current-directory URL       | `./page.html`              | Removes `./` and resolves the path relative to the base URL.                           |
+| Relative URL                | `page.html`                | Combined with the current directory of the base URL.                                   |
+| Parent-directory URL        | `../page.html`             | Moves upward through the base URL path before appending the remaining link.            |
+| Multiple parent directories | `../../page.html`          | Repeatedly moves upward through the path while preventing traversal beyond the domain. |
 
 ---
 
 ## Design Characteristics
 
-- Single-pass sequential scan of the HTML document.
-- No DOM tree construction.
-- Low memory consumption.
-- Efficient hyperlink extraction.
-- Gracefully skips malformed or invalid anchor tags.
-- Suitable for large-scale web crawling.
-# Section 3 Failure Handling
+* Uses **KMP string searching** to locate anchor tags and `href` attributes.
+* Performs **case-insensitive tag and attribute detection** while preserving original URL values.
+* Avoids constructing a complete DOM tree.
+* Supports **double-quoted, single-quoted, and unquoted** `href` values.
+* Filters non-crawlable links before adding them to the crawler pipeline.
+* Resolves relative links into absolute URLs using the webpage's base URL.
+* Gracefully skips malformed anchor tags and incomplete `href` attributes.
+* Uses a `std::vector<std::string>` to collect extracted links.
+* Keeps parsing logic independent from URL validation and normalization components.
+* Suitable for crawler workloads where hyperlink extraction is required without the overhead of a complete browser-style HTML parser.
 
-The Link Extractor is designed to handle malformed or incomplete HTML gracefully without interrupting the crawling process.
+# Section 3 - Failure Handling and Edge Cases
 
-| Failure Scenario | Handling Strategy |
-|------------------|-------------------|
-| Empty HTML document | Return an empty list of links. |
-| `<a>` tag not found | Continue scanning until the end of the document and return an empty list. |
-| Missing `href` attribute | Skip the tag and continue scanning. |
-| Empty `href` value | Ignore the link and continue scanning. |
-| Unclosed `<a>` tag | Skip the malformed tag and continue scanning from the next position. |
-| Invalid URL format | Ignore the URL or log it for debugging. |
-| Duplicate links | Store links in a hash set before adding them to the output list to avoid duplicates. |
-| Unexpected exceptions | Catch the exception, log the error, and return the links extracted so far. |
+The **HTML Parser** is designed to handle malformed, incomplete, and unsupported hyperlink structures without terminating the crawling process. Instead of treating an invalid anchor tag as a fatal error, the parser skips the problematic tag or link and continues processing the remaining HTML document.
 
-# Section 4 Complexity analysis
+| Failure Scenario / Edge Case       | Handling Strategy                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Empty HTML Document**            | If the input HTML string is empty, the KMP search finds no `<a` tags. The parser performs no further processing and returns an empty `std::vector<std::string>`.                                                                                                                                                            |
+| **No Anchor Tags Found**           | If the document contains no `<a` tags, the KMP search returns no matching positions. The parser returns an empty collection of links without generating an error.                                                                                                                                                           |
+| **Invalid `<a` Match**             | A sequence beginning with `<a` is accepted only when the following character is whitespace or `>`. This prevents strings such as `<article>` from being incorrectly interpreted as anchor tags.                                                                                                                             |
+| **Incomplete `<a` Tag**            | If `<a` occurs at the end of the HTML document and no character follows it, the parser skips that occurrence and continues processing other detected positions.                                                                                                                                                             |
+| **Missing Closing `>`**            | If the parser cannot find the closing `>` of an anchor tag, the malformed tag is skipped. Processing continues with the next anchor position found by the KMP search.                                                                                                                                                       |
+| **Missing `href` Attribute**       | If an anchor tag does not contain an `href` attribute, the parser skips the tag because there is no URL available for extraction.                                                                                                                                                                                           |
+| **Invalid `href` Attribute Match** | The parser verifies that `href` begins at the start of the tag or is preceded by whitespace. This prevents attribute names containing the substring `href` from being incorrectly treated as the actual `href` attribute.                                                                                                   |
+| **Missing `=` After `href`**       | After locating `href`, the parser skips whitespace and expects an `=` character. If the assignment operator is missing, the attribute is considered malformed and the tag is skipped.                                                                                                                                       |
+| **Missing `href` Value**           | If no value exists after the `=` character and optional whitespace, the parser skips the malformed attribute and continues processing the remaining anchor tags.                                                                                                                                                            |
+| **Unclosed Quoted `href` Value**   | For single-quoted or double-quoted `href` values, the parser searches for the corresponding closing quotation mark. If no closing quote is found, the link is skipped.                                                                                                                                                      |
+| **Unquoted `href` Value**          | The parser supports unquoted values by reading characters until whitespace or the closing `>` of the tag is reached. This allows links such as `href=page.html` to be extracted.                                                                                                                                            |
+| **Empty `href` Value**             | An empty extracted link is rejected by `isIgnoredLink()` and is not added to the output vector.                                                                                                                                                                                                                             |
+| **Fragment-Only Link**             | Links beginning with `#`, such as `#section1`, are ignored because they refer to a location within the current webpage rather than a separate page to crawl.                                                                                                                                                                |
+| **JavaScript Link**                | Links beginning with `javascript:` are ignored because they represent executable JavaScript actions rather than crawlable webpage URLs.                                                                                                                                                                                     |
+| **Email Link**                     | Links beginning with `mailto:` are ignored because they represent email actions rather than webpages.                                                                                                                                                                                                                       |
+| **Telephone Link**                 | Links beginning with `tel:` are ignored because they represent telephone actions rather than webpages.                                                                                                                                                                                                                      |
+| **Invalid Base URL**               | If the base URL does not contain a valid `://` protocol separator, some relative URLs cannot be resolved. In such cases, `makeAbsoluteURL()` returns the original link instead of terminating the parser. The URL Validator can later determine whether the resulting URL is valid.                                         |
+| **Malformed Relative Path**        | The parser attempts to resolve `./`, `../`, and other relative paths using the base URL. Parent-directory traversal is prevented from moving beyond the domain portion of the base URL.                                                                                                                                     |
+| **Duplicate Links**                | The current HTML Parser does not remove duplicate links. If the same URL appears multiple times in the HTML document, it may appear multiple times in the returned vector. Duplicate prevention is handled later by the **Seen Storage** component after URL normalization.                                                 |
+| **Invalid URL Format**             | The HTML Parser focuses on link extraction and relative URL resolution rather than complete URL validation. Extracted URLs are passed to the **URL Validator** component, which is responsible for rejecting malformed or unsupported URLs.                                                                                 |
+| **Unexpected Exceptions**          | The current implementation does not contain an internal `try-catch` block. Standard library failures such as memory allocation errors may propagate to the caller. If required, exception handling can be added at the crawler-controller level to prevent a parser failure from terminating the complete crawling process. |
+
+## Failure Handling Flow
+
+```text id="obuq0d"
+Extract Anchor Tag
+        |
+        v
+Is Tag Structurally Valid?
+     /        \
+   No          Yes
+   |            |
+ Skip      Find href
+                |
+                v
+         href Found?
+          /      \
+        No        Yes
+        |          |
+      Skip     Extract Value
+                    |
+                    v
+              Value Valid?
+               /      \
+             No        Yes
+             |          |
+           Skip    isIgnoredLink()
+                         |
+                    +----+----+
+                    |         |
+                  Ignore     Accept
+                    |         |
+                   Skip       v
+                       makeAbsoluteURL()
+                              |
+                              v
+                       Add to Output
+```
+
+The HTML Parser follows a **skip-and-continue strategy** for malformed HTML. A failure in one anchor tag does not stop the processing of the complete document. Valid links found in other parts of the HTML can still be extracted and returned to the crawler.
+
+
+# Section 4 - Complexity Analysis
+
+The **HTML Parser** processes the HTML document using string operations and the **KMP (Knuth-Morris-Pratt) string-searching algorithm**. Its performance depends primarily on the size of the HTML document, the number of anchor tags, and the lengths of the extracted tags and URLs.
 
 ## Complexity Analysis
 
-| Method | Purpose | Best Case | Average Case | Worst Case |
-|--------|---------|-----------|--------------|------------|
-| `parseHTML(const std::string& html)` | Scans the HTML document and extracts all hyperlinks. | **O(1)** (empty document or no content) | **O(n)** | **O(n)** |
-| `extractLinks()` | Returns the collection of extracted links. | **O(1)** | **O(k)** | **O(k)** |
-| `clear()` | Clears all extracted links and resets the parser. | **O(1)** (already empty) | **O(k)** | **O(k)** |
-| `isParsed()` | Checks whether the HTML document has been parsed successfully. | **O(1)** | **O(1)** | **O(1)** |
+| Method                           | Best Case | Average Case | Worst Case   | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| -------------------------------- | --------- | ------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extractLinks(html, baseURL)`    | **O(n)**  | **O(n + t)** | **O(n + t)** | Processes the HTML document to locate anchor tags and extract their `href` values. The method first creates a lowercase copy of the complete HTML document, requiring traversal of all **n** characters. KMP is then used to locate `<a>` occurrences. Each detected anchor tag is further processed to find and extract its `href` value. The total additional work depends on the combined size **t** of the anchor tags processed. |
+| `isIgnoredLink(link)`            | **O(1)**  | **O(1)**     | **O(1)**     | Determines whether a link should be ignored by checking for an empty value, a fragment marker, or fixed prefixes such as `javascript:`, `mailto:`, and `tel:`. Since each comparison checks only a fixed number of characters, the operation remains constant time.                                                                                                                                                                   |
+| `makeAbsoluteURL(link, baseURL)` | **O(1)**  | **O(m + b)** | **O(m + b)** | Converts a relative link into an absolute URL. The method performs string searches, substring creation, and path manipulation on the link and base URL. For parent-directory paths such as `../../page.html`, multiple path segments may need to be processed. Therefore, the running time depends on the lengths of the link and base URL.                                                                                           |
 
-### Notation
+## Notation
 
-- **n** = Size of the HTML document (number of characters).
-- **k** = Number of extracted hyperlinks.
+* **n** = Number of characters in the complete HTML document.
+* **t** = Combined number of characters in all anchor tags processed.
+* **m** = Length of the extracted link.
+* **b** = Length of the base URL.
+* **k** = Number of anchor tags or extracted links.
 
-# Section 5 Future Compatibility 
+## Complexity Justification
 
-The current HTML Parser is designed to extract hyperlinks for web crawling. Its modular design allows it to be extended to support an Indexer without significant architectural changes.
+### `extractLinks()` — O(n + t)
 
-### Future Enhancements
+The method first creates a copy of the HTML document and converts it to lowercase:
 
-- Extract visible text from web pages for content indexing.
-- Extract page titles to improve search result relevance.
-- Extract metadata (description, keywords, author) for document indexing.
-- Extract heading elements (`<h1>`–`<h6>`) to assign importance to page content.
-- Compute term frequencies for ranking algorithms.
-- Remove HTML tags and normalize text before indexing.
-- Provide structured document data directly to the Indexer module.
+```cpp id="3p5c2w"
+std::string lowerHTML = html;
 
-### Integration Workflow
-
-```text
-Web Fetcher
-      │
-      ▼
-HTML Parser
-      │
-      ├── Hyperlinks ─────────► URL Queue (Crawler)
-      │
-      └── Page Content ───────► Indexer
-                                    │
-                                    ▼
-                             Inverted Index
-                                    │
-                                    ▼
-                              Search Engine
+for (char &ch : lowerHTML)
+{
+    // Convert uppercase characters to lowercase
+}
 ```
 
-### Benefits
+This requires **O(n)** time.
 
-- Reuses the existing parser without modifying the crawler.
-- Supports efficient document indexing.
-- Enables keyword-based searching.
-- Provides a foundation for page ranking and search result generation.
-- Simplifies future integration with search engine components.
+The KMP algorithm then searches the HTML document for `<a>` tags. KMP performs pattern searching in linear time, so searching the complete document requires **O(n)** time.
 
+Each detected anchor tag is then extracted and processed individually. The parser creates a lowercase copy of the tag, searches for `href`, extracts the attribute value, filters the link, and resolves relative URLs. If the combined size of all processed anchor tags is **t**, this additional processing requires approximately **O(t)** time.
+
+Therefore:
+
+```text id="xx8h46"
+O(n) + O(t) = O(n + t)
+```
+
+In normal HTML documents, the processed anchor tags are part of the original document, so the overall complexity can generally be considered approximately:
+
+```text id="ij7l27"
+O(n)
+```
+
+### `isIgnoredLink()` — O(1)
+
+The method performs only fixed-length prefix checks:
+
+```text id="4br09w"
+#
+javascript:
+mailto:
+tel:
+```
+
+Because the number and maximum length of these comparisons are fixed, the execution time does not grow with the number of links or the size of the HTML document.
+
+Therefore:
+
+```text id="k9z71n"
+O(1)
+```
+
+### `makeAbsoluteURL()` — O(m + b)
+
+The method performs operations such as:
+
+* Searching for `://`
+* Searching for `/`
+* Finding the last `/`
+* Creating substrings
+* Removing `./`
+* Processing one or more `../` path segments
+* Concatenating URL strings
+
+These operations depend on the lengths of the extracted link and the base URL.
+
+Therefore:
+
+```text id="sx51zc"
+O(m + b)
+```
+
+In the case of multiple parent-directory references such as:
+
+```text id="oc2pp4"
+../../../page.html
+```
+
+the method repeatedly processes path segments, but the amount of processed data remains bounded by the lengths of the link and base URL.
+
+## Overall Complexity
+
+For a complete HTML document, the overall parsing complexity is approximately:
+
+```text id="c40h3v"
+Time Complexity: O(n + t)
+```
+
+Since the total size of processed anchor tags is generally bounded by the size of the HTML document, this can commonly be simplified to:
+
+```text id="19hm3r"
+O(n)
+```
+
+The parser therefore scales approximately linearly with the size of the HTML document, making it suitable for hyperlink extraction in the web crawler.
+
+
+# Section 5 - Future Compatibility with Project 03 (Indexer)
+
+The current **HTML Parser** is primarily responsible for extracting hyperlinks from downloaded webpages for the crawling process. However, its position between raw HTML content and other crawler components makes it suitable for future integration with the **Indexer (Project 03)**.
+
+The current `extractLinks()` method is mainly crawler-specific and will not directly build the inverted index. However, the HTML Parser can later be extended with additional parsing methods that allow the Indexer to extract meaningful textual information from webpages stored in Page Storage.
+
+## Interaction of HTML Parser Methods with the Future Indexer
+
+| HTML Parser Method               | Interaction with the Future Indexer                                                                                                                                                                                                                                               |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extractLinks(html, baseURL)`    | Extracts hyperlinks from a webpage for continued crawling. The Indexer will not normally use these links to build the inverted index, but the method helps the crawler discover additional webpages that are eventually stored in Page Storage and become available for indexing. |
+| `isIgnoredLink(link)`            | Filters non-crawlable links such as fragments, JavaScript actions, email links, and telephone links. This method indirectly supports the Indexer by ensuring that the crawler focuses on actual webpages that can later provide useful indexable content.                         |
+| `makeAbsoluteURL(link, baseURL)` | Converts relative links into complete absolute URLs. This allows discovered webpages to be correctly scheduled, fetched, and stored. The resulting stored pages can later become input documents for the Indexer.                                                                 |
+
+## Future HTML Parser Methods for the Indexer
+
+The HTML Parser can be extended with additional methods specifically designed for indexing:
+
+| Future Method                | Interaction with the Indexer                                                                                                                                                                                                        |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extractVisibleText(html)`   | Extracts human-readable text from the HTML document while removing tags, scripts, styles, and other non-visible content. The Indexer can tokenize this text and add its words to the inverted index.                                |
+| `extractTitle(html)`         | Extracts the content of the `<title>` element. The Indexer can store the page title as document metadata and potentially assign greater importance to title terms.                                                                  |
+| `extractHeadings(html)`      | Extracts text from `<h1>` through `<h6>` elements. The Indexer may use heading terms as higher-value content during ranking.                                                                                                        |
+| `extractMetadata(html)`      | Extracts metadata such as page description, keywords, and author information. This information can be associated with indexed documents and used for search result presentation or ranking.                                         |
+| `extractDocument(html, url)` | Produces a structured representation of a webpage containing its URL, title, visible text, headings, and metadata. This can provide the Indexer with a single structured document instead of requiring multiple parsing operations. |
+
+## Future Integration Workflow
+
+```text id="t7o8j1"
+                    Fetcher
+                       |
+                       v
+                  Raw HTML Page
+                       |
+                       v
+                 Page Storage
+                       |
+                       v
+                   HTML Parser
+                  /           \
+                 /             \
+                v               v
+       extractLinks()    Future Content Methods
+                |               |
+                v               +--> extractVisibleText()
+          URL Frontier          +--> extractTitle()
+                                +--> extractHeadings()
+                                +--> extractMetadata()
+                                         |
+                                         v
+                                      Indexer
+                                         |
+                                         v
+                                  Inverted Index
+                                         |
+                                         v
+                                   Search Engine
+```
+
+## Example Future Interaction with the Indexer
+
+The future Indexer may retrieve HTML from Page Storage and pass it to the HTML Parser:
+
+```cpp id="uhzqbn"
+std::string html = pageStorage.getPage(url);
+
+std::string text = htmlParser.extractVisibleText(html);
+std::string title = htmlParser.extractTitle(html);
+
+indexer.indexDocument(url, title, text);
+```
+
+The Indexer can then process the extracted content:
+
+```text id="g7m12y"
+Stored HTML
+    |
+    v
+HTML Parser
+    |
+    | Extract visible content
+    v
+Clean Text
+    |
+    | Tokenization and term processing
+    v
+Indexer
+    |
+    v
+Inverted Index
+```
+
+The **HTML Parser and Indexer remain separate components**. The HTML Parser is responsible for converting raw HTML into useful structured content, while the Indexer is responsible for processing that content and building searchable data structures.
+
+This design allows the existing hyperlink extraction functionality to remain unchanged while new content-extraction methods can be added for Project 03 without requiring major modifications to the crawler architecture.
+
+```
 # Component 5 - Fetcher
 
 ## Objective
@@ -1361,21 +1815,114 @@ The validator performs several checks one after another without using nested loo
 
 The current implementation also creates a new string when extracting the domain using `substr()`. Since this operation copies the domain into a separate string, additional memory proportional to the domain length is required. Therefore, the auxiliary space complexity is also **O(n)**.
 
-# Section 5 - Future Compatibility with the Indexer
+# Section 5 - Future Compatibility with Project 03 (Indexer)
 
-Although the URL Validator does not communicate directly with the Indexer, it plays an important role in ensuring that only valid webpages reach the indexing stage. By rejecting malformed or unsupported URLs before they are fetched, the validator improves the overall quality of the data available for indexing.
+The **URL Validator** is primarily a crawler-side component responsible for ensuring that only URLs with an accepted structure enter the crawling pipeline. The future **Indexer (Project 03)** will mainly process webpages stored in Page Storage, so it may not directly use the URL Validator during normal indexing.
 
-In future versions of the crawler, the URL Validator can be extended to perform additional validation checks that further improve indexing quality, such as:
+However, the URL Validator indirectly supports the Indexer by ensuring that crawled and stored documents are associated with structurally acceptable HTTP or HTTPS URLs. This helps maintain cleaner document identifiers and prevents invalid URL values from entering the collection of pages that will later be indexed.
 
-- Rejecting unsupported URL schemes (e.g., `ftp://`, `file://`, `mailto:`).
-- Blocking duplicate URLs after normalization.
-- Filtering URLs based on allowed or blocked domains.
-- Ignoring URLs that point to non-HTML resources such as images, videos, PDFs, or executable files.
-- Enforcing URL length limits to prevent processing excessively long or malformed URLs.
-- Supporting whitelist and blacklist rules for domain filtering.
-- Integrating with the URL Normalizer to ensure that only canonical URLs are indexed.
+## Interaction of URL Validator Methods with the Future Indexer
 
-These enhancements will help ensure that the Indexer receives a clean, consistent, and high-quality collection of webpages, reducing unnecessary processing and improving the efficiency and accuracy of the indexing process.
+| URL Validator Method    | Interaction with the Future Indexer                                                                                                                                                                                                                                                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isValid(url)`          | Performs the complete URL validation process by checking whether the URL is non-empty, uses a supported protocol, and contains an acceptable domain structure. By preventing invalid URLs from entering the crawling pipeline, this method helps ensure that pages later stored and processed by the Indexer are associated with valid document URLs. |
+| `hasValidProtocol(url)` | Verifies that the URL begins with either `http://` or `https://`. This ensures that the crawler processes web resources using supported protocols. The Indexer therefore receives documents originating from URLs that follow the crawler's accepted web protocol rules.                                                                              |
+| `hasDomain(url)`        | Checks whether the URL contains a basic domain structure after the protocol. It rejects URLs with a missing domain, spaces, no dot, or a trailing dot. This helps prevent malformed document URLs from reaching Page Storage and later becoming identifiers for indexed documents.                                                                    |
+
+## Indirect Interaction with the Indexer
+
+The URL Validator normally operates before a URL reaches the URL Frontier:
+
+```text id="chzwod"
+Extracted URL
+     |
+     v
+URL Validator
+     |
+     | isValid()
+     v
+URL Normalizer
+     |
+     v
+Seen Storage
+     |
+     v
+URL Frontier
+     |
+     v
+Fetcher
+     |
+     v
+Page Storage
+     |
+     v
+Future Indexer
+```
+
+For example:
+
+```cpp id="c3vvw4"
+if (urlValidator.isValid(extractedURL))
+{
+    std::string normalizedURL =
+        urlNormalizer.normalize(extractedURL);
+
+    // Continue through the crawler pipeline
+}
+```
+
+The valid URL may eventually be fetched and stored:
+
+```cpp id="2j1sbp"
+FetchResult result = fetcher.fetch(normalizedURL);
+
+if (result.success)
+{
+    pageStorage.storePage(
+        normalizedURL,
+        result.html,
+        depth
+    );
+}
+```
+
+The future Indexer can then process the stored page using its associated URL as a document identifier:
+
+```cpp id="tk20k4"
+std::string html = pageStorage.getPage(url);
+
+// Extract content
+// Tokenize words
+// Build inverted index
+// Associate indexed terms with the document URL
+```
+
+## Future Direct Use by the Indexer
+
+Although the current Indexer design does not require direct URL validation, `isValid()` may be reused in future features where the Indexer receives URLs from external sources, imports existing document collections, or validates stored document identifiers before indexing.
+
+The helper methods `hasValidProtocol()` and `hasDomain()` can remain internal implementation details, while `isValid()` provides the main validation interface.
+
+```text id="ujr7g0"
+URLValidator
+     |
+     | Filters malformed URLs
+     v
+Crawler Pipeline
+     |
+     | Produces valid stored documents
+     v
+Page Storage
+     |
+     | Supplies documents
+     v
+Indexer
+     |
+     v
+Inverted Index
+```
+
+The **URL Validator and Indexer remain independent components** during normal operation. The URL Validator does not build or modify the inverted index, but it improves the quality and consistency of the document collection by preventing malformed URLs from progressing through the crawler and becoming references to indexed webpages.
 
 # component 7 - URL normalizer
 
@@ -1571,39 +2118,149 @@ Let **n** be the length of the input URL.
 
 The overall complexity is determined by the `normalize()` function because it invokes all normalization steps. Most helper functions either perform constant-time checks or scan the URL once. Since no nested traversal occurs, the normalizer remains efficient even for long URLs.
 
-# Section 5 - Future Compatibility with the Indexer
+# Section 5 - Future Compatibility with Project 03 (Indexer)
 
-The **URL Normalizer** plays an important role in ensuring that the Indexer works with a clean and consistent collection of webpages. Before a webpage is fetched and stored, the normalizer converts its URL into a canonical format. As a result, different textual representations of the same webpage are treated as a single resource throughout the crawler pipeline.
+The **URL Normalizer** is primarily used during the crawling phase to convert different representations of the same URL into a consistent form. Although the future **Indexer (Project 03)** may not directly call every normalization method, the URL Normalizer indirectly improves indexing by ensuring that webpages are stored and identified using consistent URLs.
 
-When the Indexer processes stored webpages in the future, it can rely on these normalized URLs as unique identifiers. This prevents the same webpage from being indexed multiple times simply because it was discovered through different URL representations.
+A normalized URL can serve as a stable **document identifier** for pages stored in Page Storage and later processed by the Indexer. This reduces the possibility of the same webpage being treated as multiple different documents because of differences in protocol casing, domain casing, default ports, fragments, or trailing slashes.
 
-For example, the following URLs all refer to the same webpage:
+For example:
 
-```
-HTTP://Example.com
-http://example.com/
-http://example.com:80
-http://example.com/#about
-```
-
-After normalization, they become:
-
-```
-http://example.com
+```text id="wln8yq"
+HTTPS://Example.COM:443/page/
+https://example.com:443/page#section
+https://example.com/page
 ```
 
-Since only the normalized URL is stored, the Indexer creates a single index entry instead of multiple duplicate entries.
+After applicable normalization rules, equivalent URL variations can be converted toward a consistent representation before they enter the crawling and indexing pipeline.
 
-## Future Enhancements
+## Interaction of URL Normalizer Methods with the Future Indexer
 
-The URL Normalizer can be extended with additional normalization rules to further improve indexing quality, such as:
+| URL Normalizer Method         | Interaction with the Future Indexer                                                                                                                                                                                                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `normalize(url)`              | Applies the complete URL normalization pipeline and returns a consistent URL representation. The normalized URL can later be stored with the webpage in Page Storage and used by the Indexer as a stable document reference. This helps reduce duplicate document identities caused by superficial URL differences. |
+| `normalizeProtocol(url)`      | Converts the protocol portion of the URL to lowercase. Since URL schemes are case-insensitive, this helps ensure that variations such as `HTTP://` and `http://` are treated consistently before the corresponding page is stored and later indexed.                                                                |
+| `normalizeDomain(url)`        | Converts the domain portion of the URL to lowercase while preserving the remaining path. This helps prevent URLs such as `example.com/page` and `Example.COM/page` from being treated as different document references in the crawling and indexing pipeline.                                                       |
+| `removeDefaultPort(url)`      | Removes the default port `:80` from HTTP URLs and `:443` from HTTPS URLs. This helps canonicalize URLs that may refer to the same resource with or without an explicitly written default port, reducing unnecessary duplicate document references.                                                                  |
+| `removeFragment(url)`         | Removes the fragment portion beginning with `#`. Fragments normally identify sections within the same webpage rather than separate documents. Removing them helps ensure that multiple fragment URLs for the same page are stored and indexed as a single document.                                                 |
+| `normalizeTrailingSlash(url)` | Removes a trailing slash from the URL according to the current normalization policy. This helps reduce duplicate URL representations where the crawler may otherwise treat trailing-slash variations as separate document identifiers.                                                                              |
 
-- Removing common tracking parameters (for example, `utm_source`, `utm_medium`, and `utm_campaign`) that do not change the webpage content.
-- Sorting query parameters into a consistent order so that URLs containing the same parameters in different sequences are treated as identical.
-- Resolving relative paths (such as `.` and `..`) into their absolute form.
-- Decoding percent-encoded characters where appropriate to create a consistent URL representation.
-- Supporting internationalized domain names (IDNs) by converting them into a canonical format.
-- Applying configurable normalization rules for specific websites that have unique URL structures.
+## Indirect Interaction with the Indexer
 
-These enhancements will allow the Indexer to process a cleaner dataset, reduce duplicate index entries, improve search accuracy, and make the indexing process more efficient as the crawler grows.
+The URL Normalizer operates before URLs are checked by Seen Storage and added to the URL Frontier:
+
+```text id="ffy8sf"
+Extracted URL
+     |
+     v
+URL Validator
+     |
+     v
+URL Normalizer
+     |
+     | Canonical URL representation
+     v
+Seen Storage
+     |
+     v
+URL Frontier
+     |
+     v
+Fetcher
+     |
+     v
+Page Storage
+     |
+     | Normalized URL + HTML
+     v
+Future Indexer
+```
+
+For example:
+
+```cpp id="by3pgm"
+if (urlValidator.isValid(extractedURL))
+{
+    std::string normalizedURL =
+        urlNormalizer.normalize(extractedURL);
+
+    if (!seenStorage.isSeen(normalizedURL))
+    {
+        seenStorage.addSeenURL(normalizedURL);
+        frontier.addURL(URLNode(normalizedURL, depth));
+    }
+}
+```
+
+After the page is fetched, the normalized URL can be stored with its content:
+
+```cpp id="c0a5gj"
+pageStorage.storePage(
+    normalizedURL,
+    result.html,
+    depth
+);
+```
+
+The future Indexer can then associate indexed terms with this consistent document reference:
+
+```text id="0jxkcm"
+Normalized URL
+      +
+Stored HTML
+      |
+      v
+HTML Parser
+      |
+      v
+Extracted Text
+      |
+      v
+Indexer
+      |
+      v
+Term -> Document Reference
+```
+
+## Future Direct Use by the Indexer
+
+The future Indexer may also directly use `normalize()` when processing URLs obtained from external sources, imported document collections, search-result links, or previously stored data. This would allow the Indexer to apply the same URL identity rules used by the crawler.
+
+For example:
+
+```cpp id="g8q1ae"
+std::string documentURL =
+    urlNormalizer.normalize(url);
+
+indexer.indexDocument(
+    documentURL,
+    extractedText
+);
+```
+
+The internal helper methods can remain implementation details, while `normalize()` provides the main interface for both crawler-side and possible future indexing use.
+
+## Relationship with the Future Indexer
+
+```text id="6wrz0x"
+URLNormalizer
+      |
+      | Creates consistent URL representation
+      v
+Seen Storage
+      |
+      | Reduces duplicate discovery
+      v
+Page Storage
+      |
+      | Stores page with normalized URL
+      v
+Indexer
+      |
+      | Uses URL as document reference
+      v
+Inverted Index
+```
+
+The **URL Normalizer and Indexer remain separate components**, but normalization provides consistent document identity across the complete crawler and search-engine pipeline. By ensuring that equivalent URL variations are represented consistently before storage, the URL Normalizer helps reduce duplicate crawling, duplicate storage, and unnecessary duplicate indexing.
 

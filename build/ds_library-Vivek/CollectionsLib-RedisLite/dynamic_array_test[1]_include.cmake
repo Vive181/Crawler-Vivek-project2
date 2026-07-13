@@ -1,5 +1,0 @@
-if(EXISTS "D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test[1]_tests.cmake")
-  include("D:/projects/Crawler/build/ds_library-Vivek/CollectionsLib-RedisLite/dynamic_array_test[1]_tests.cmake")
-else()
-  add_test(dynamic_array_test_NOT_BUILT dynamic_array_test_NOT_BUILT)
-endif()

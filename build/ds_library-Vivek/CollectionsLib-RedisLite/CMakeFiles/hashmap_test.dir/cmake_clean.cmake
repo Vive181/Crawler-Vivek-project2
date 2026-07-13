@@ -4,7 +4,7 @@ file(REMOVE_RECURSE
   "hashmap_test.exe"
   "hashmap_test.exe.manifest"
   "hashmap_test.pdb"
-  "hashmap_test[1]_tests.cmake"
+  "hashmap_test_e3b0c442_tests.cmake"
   "libhashmap_test.dll.a"
 )
 
