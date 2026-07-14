@@ -21,6 +21,14 @@ std::vector<std::string> HTMLParser::extractLinks(const std::string &html,
   // Loop through each <a tag
   for (size_t position : anchorPositions) {
 
+    size_t commentStart = html.rfind("<!--", position);
+    size_t commentEnd = html.rfind("-->", position);
+
+    if (commentStart != std::string::npos &&
+        (commentEnd == std::string::npos || commentEnd < commentStart)) {
+      continue;
+    }
+
     size_t afterA = position + 2;
 
     if (afterA >= lowerHTML.size()) {
@@ -34,7 +42,29 @@ std::vector<std::string> HTMLParser::extractLinks(const std::string &html,
       continue;
     }
 
-    size_t tagEnd = html.find('>', position);
+    size_t tagEnd = std::string::npos;
+
+    bool insideQuote = false;
+    char activeQuote = '\0';
+
+    for (size_t i = position; i < html.size(); i++) {
+      char ch = html[i];
+
+      if (!insideQuote && (ch == '"' || ch == '\'')) {
+        insideQuote = true;
+        activeQuote = ch;
+      } else if (insideQuote && ch == activeQuote) {
+        insideQuote = false;
+        activeQuote = '\0';
+      } else if (!insideQuote && ch == '>') {
+        tagEnd = i;
+        break;
+      }
+    }
+
+    if (tagEnd == std::string::npos) {
+      continue;
+    }
 
     if (tagEnd == std::string::npos) {
       continue;
@@ -57,6 +87,23 @@ std::vector<std::string> HTMLParser::extractLinks(const std::string &html,
     size_t hrefPosition = std::string::npos;
 
     for (size_t hrefPos : hrefPositions) {
+
+      bool insideQuote = false;
+      char activeQuote = '\0';
+
+      for (size_t i = 0; i < hrefPos; i++) {
+        if (!insideQuote && (tag[i] == '"' || tag[i] == '\'')) {
+          insideQuote = true;
+          activeQuote = tag[i];
+        } else if (insideQuote && tag[i] == activeQuote) {
+          insideQuote = false;
+          activeQuote = '\0';
+        }
+      }
+
+      if (insideQuote) {
+        continue;
+      }
       // href ke pehle whitespace hona chahiye
       if (hrefPos == 0 || lowerTag[hrefPos - 1] == ' ' ||
           lowerTag[hrefPos - 1] == '\t' || lowerTag[hrefPos - 1] == '\n' ||
@@ -142,15 +189,23 @@ bool HTMLParser::isIgnoredLink(const std::string &link) {
     return true;
   }
 
-  if (link.compare(0, 11, "javascript:") == 0) {
+  std::string lowerLink = link;
+
+  for (char &ch : lowerLink) {
+    if (ch >= 'A' && ch <= 'Z') {
+      ch = ch - 'A' + 'a';
+    }
+  }
+
+  if (lowerLink.compare(0, 11, "javascript:") == 0) {
     return true;
   }
 
-  if (link.compare(0, 7, "mailto:") == 0) {
+  if (lowerLink.compare(0, 7, "mailto:") == 0) {
     return true;
   }
 
-  if (link.compare(0, 4, "tel:") == 0) {
+  if (lowerLink.compare(0, 4, "tel:") == 0) {
     return true;
   }
 
@@ -235,22 +290,32 @@ std::string HTMLParser::makeAbsoluteURL(const std::string &link,
   // Handle ../ and multiple ../../
   std::string remainingLink = link;
 
+  // Get origin, for example: https://example.com
+  size_t originEnd = baseURL.find('/', protocolEnd + 3);
+
+  std::string origin =
+      (originEnd == std::string::npos) ? baseURL : baseURL.substr(0, originEnd);
+
   while (remainingLink.compare(0, 3, "../") == 0) {
     remainingLink = remainingLink.substr(3);
 
-    // Remove trailing slash
+    // Do not move above the domain root
+    if (baseDirectory == origin + "/" || baseDirectory == origin) {
+      baseDirectory = origin + "/";
+      continue;
+    }
+
     if (!baseDirectory.empty() && baseDirectory.back() == '/') {
       baseDirectory.pop_back();
     }
 
     size_t lastSlash = baseDirectory.find_last_of('/');
 
-    // Do not move above the domain
-    if (lastSlash == std::string::npos || lastSlash <= protocolEnd + 2) {
-      return baseDirectory + "/" + remainingLink;
+    if (lastSlash == std::string::npos || lastSlash < origin.length()) {
+      baseDirectory = origin + "/";
+    } else {
+      baseDirectory = baseDirectory.substr(0, lastSlash + 1);
     }
-
-    baseDirectory = baseDirectory.substr(0, lastSlash + 1);
   }
 
   return baseDirectory + remainingLink;
