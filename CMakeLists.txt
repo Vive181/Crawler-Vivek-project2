@@ -113,4 +113,75 @@ target_link_libraries(URLFrontierTests PRIVATE
 
 gtest_discover_tests(URLFrontierTests)
 
+# seen storage testing
+
+add_executable(SeenStorageTests
+    testing/Seenstorage_testing.cpp
+    src/seenstorage.cpp
+)
+
+target_include_directories(SeenStorageTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/ds_library-Vivek/CollectionsLib-RedisLite/include
+)
+
+target_link_libraries(SeenStorageTests PRIVATE
+    CollectionsLib
+    GTest::gtest_main
+)
+
+gtest_discover_tests(SeenStorageTests)
+
+# KMP testing
+
+add_executable(KMPTests
+    testing/KMP_testing.cpp
+    src/KMP.cpp
+)
+
+target_include_directories(KMPTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(KMPTests PRIVATE
+    GTest::gtest_main
+)
+
+gtest_discover_tests(KMPTests)
+
+# HTML parsing testing
+
+add_executable(HTMLParserTests
+    testing/HTMLparser_testing.cpp
+    src/HTMLparser.cpp
+    src/KMP.cpp
+)
+
+target_include_directories(HTMLParserTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(HTMLParserTests PRIVATE
+    GTest::gtest_main
+)
+
+gtest_discover_tests(HTMLParserTests)
+
+# frameworkdetector testing
+
+add_executable(FrameworkDetectorTests
+    testing/FrameworkDetector_testing.cpp
+    src/frameworkdetector.cpp
+)
+
+target_include_directories(FrameworkDetectorTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(FrameworkDetectorTests PRIVATE
+    GTest::gtest_main
+)
+
+gtest_discover_tests(FrameworkDetectorTests)
+
 
