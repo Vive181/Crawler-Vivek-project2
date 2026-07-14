@@ -11,7 +11,7 @@ static size_t writeCallback(void *contents, size_t size, size_t nmemb,
   return size * nmemb;
 }
 
-Fetcher::Fetcher() { userAgent = "Crawler/1.0"; }
+Fetcher::Fetcher() : userAgent("Crawler/1.0"), timeout(10L), maxRedirects(5L) {}
 
 FetchResult Fetcher::fetch(const std::string &url) {
   FetchResult result;
@@ -37,10 +37,10 @@ FetchResult Fetcher::fetch(const std::string &url) {
   curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
   // Maximum redirects
-  curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 5L);
+  curl_easy_setopt(curl, CURLOPT_MAXREDIRS, maxRedirects);
 
-  // Timeout (10 seconds)
-  curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
+  // timeout 10 sec
+  curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
 
   CURLcode response = curl_easy_perform(curl);
 
@@ -78,3 +78,7 @@ FetchResult Fetcher::fetch(const std::string &url) {
 }
 
 void Fetcher::setUserAgent(const std::string &agent) { userAgent = agent; }
+
+void Fetcher::setTimeout(long seconds) { timeout = seconds; }
+
+void Fetcher::setMaxRedirects(long redirects) { maxRedirects = redirects; }
