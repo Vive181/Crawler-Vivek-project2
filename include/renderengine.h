@@ -48,6 +48,11 @@ private:
   std::string readMessage();
 
   json readJSONMessage();
+
+  bool isCDPAvailable();
+  bool launchChrome();
+  bool waitForCDP();
+  bool ensureChromeRunning();
 };
 
 #endif

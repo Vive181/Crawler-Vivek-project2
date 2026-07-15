@@ -1,6 +1,9 @@
 #include "../include/renderengine.h"
 
+#include <chrono>
+#include <cstdlib>
 #include <curl/curl.h>
+#include <thread>
 
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
@@ -87,7 +90,73 @@ bool RenderEngine::connect() {
   }
 }
 
+bool RenderEngine::isCDPAvailable() {
+  CURL *curl = curl_easy_init();
+
+  if (curl == nullptr) {
+    return false;
+  }
+
+  std::string response;
+
+  curl_easy_setopt(curl, CURLOPT_URL, "http://127.0.0.1:9222/json/version");
+  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 500L);
+  curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 1000L);
+
+  CURLcode result = curl_easy_perform(curl);
+
+  curl_easy_cleanup(curl);
+
+  return result == CURLE_OK && !response.empty();
+}
+
+bool RenderEngine::launchChrome() {
+#ifdef _WIN32
+  std::string command =
+      "start \"\" "
+      "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" "
+      "--headless=new "
+      "--remote-debugging-port=9222 "
+      "--user-data-dir=\"C:\\crawler-chrome-profile\" "
+      "--disable-gpu";
+
+  return std::system(command.c_str()) == 0;
+#else
+  return false;
+#endif
+}
+
+bool RenderEngine::waitForCDP() {
+  for (int i = 0; i < 20; i++) {
+    if (isCDPAvailable()) {
+      return true;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  }
+
+  return false;
+}
+
+bool RenderEngine::ensureChromeRunning() {
+  if (isCDPAvailable()) {
+    return true;
+  }
+
+  if (!launchChrome()) {
+    return false;
+  }
+
+  return waitForCDP();
+}
+
 bool RenderEngine::createTab(const std::string &url) {
+
+  if (!ensureChromeRunning()) {
+    return false;
+  }
   CURL *curl = curl_easy_init();
 
   if (curl == nullptr) {
