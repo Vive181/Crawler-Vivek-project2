@@ -1,0 +1,5 @@
+if(EXISTS "D:/projects/Crawler/build/FetcherTests_e3b0c442_tests.cmake")
+  include("D:/projects/Crawler/build/FetcherTests_e3b0c442_tests.cmake")
+else()
+  add_test(FetcherTests_NOT_BUILT FetcherTests_NOT_BUILT)
+endif()

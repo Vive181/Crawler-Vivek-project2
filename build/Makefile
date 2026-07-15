@@ -288,6 +288,32 @@ PageStorageTests/fast:
 .PHONY : PageStorageTests/fast
 
 #=============================================================================
+# Target rules for targets named FetcherTests
+
+# Build rule for target.
+FetcherTests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 FetcherTests
+.PHONY : FetcherTests
+
+# fast build rule for target.
+FetcherTests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/build
+.PHONY : FetcherTests/fast
+
+#=============================================================================
+# Target rules for targets named renderengine_test
+
+# Build rule for target.
+renderengine_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 renderengine_test
+.PHONY : renderengine_test
+
+# fast build rule for target.
+renderengine_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/build
+.PHONY : renderengine_test/fast
+
+#=============================================================================
 # Target rules for targets named CollectionsLib
 
 # Build rule for target.
@@ -635,6 +661,7 @@ src/fetcher.obj: src/fetcher.cpp.obj
 # target to build an object file
 src/fetcher.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/fetcher.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/src/fetcher.cpp.obj
 .PHONY : src/fetcher.cpp.obj
 
 src/fetcher.i: src/fetcher.cpp.i
@@ -643,6 +670,7 @@ src/fetcher.i: src/fetcher.cpp.i
 # target to preprocess a source file
 src/fetcher.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/fetcher.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/src/fetcher.cpp.i
 .PHONY : src/fetcher.cpp.i
 
 src/fetcher.s: src/fetcher.cpp.s
@@ -651,6 +679,7 @@ src/fetcher.s: src/fetcher.cpp.s
 # target to generate assembly for a file
 src/fetcher.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/fetcher.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/src/fetcher.cpp.s
 .PHONY : src/fetcher.cpp.s
 
 src/frameworkdetector.obj: src/frameworkdetector.cpp.obj
@@ -713,6 +742,7 @@ src/renderengine.obj: src/renderengine.cpp.obj
 # target to build an object file
 src/renderengine.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/renderengine.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/src/renderengine.cpp.obj
 .PHONY : src/renderengine.cpp.obj
 
 src/renderengine.i: src/renderengine.cpp.i
@@ -721,6 +751,7 @@ src/renderengine.i: src/renderengine.cpp.i
 # target to preprocess a source file
 src/renderengine.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/renderengine.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/src/renderengine.cpp.i
 .PHONY : src/renderengine.cpp.i
 
 src/renderengine.s: src/renderengine.cpp.s
@@ -729,6 +760,7 @@ src/renderengine.s: src/renderengine.cpp.s
 # target to generate assembly for a file
 src/renderengine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/renderengine.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/src/renderengine.cpp.s
 .PHONY : src/renderengine.cpp.s
 
 src/seenstorage.obj: src/seenstorage.cpp.obj
@@ -757,6 +789,30 @@ src/seenstorage.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Crawler.dir\build.make CMakeFiles/Crawler.dir/src/seenstorage.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SeenStorageTests.dir\build.make CMakeFiles/SeenStorageTests.dir/src/seenstorage.cpp.s
 .PHONY : src/seenstorage.cpp.s
+
+testing/Fetcher_testing.obj: testing/Fetcher_testing.cpp.obj
+.PHONY : testing/Fetcher_testing.obj
+
+# target to build an object file
+testing/Fetcher_testing.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/testing/Fetcher_testing.cpp.obj
+.PHONY : testing/Fetcher_testing.cpp.obj
+
+testing/Fetcher_testing.i: testing/Fetcher_testing.cpp.i
+.PHONY : testing/Fetcher_testing.i
+
+# target to preprocess a source file
+testing/Fetcher_testing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/testing/Fetcher_testing.cpp.i
+.PHONY : testing/Fetcher_testing.cpp.i
+
+testing/Fetcher_testing.s: testing/Fetcher_testing.cpp.s
+.PHONY : testing/Fetcher_testing.s
+
+# target to generate assembly for a file
+testing/Fetcher_testing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FetcherTests.dir\build.make CMakeFiles/FetcherTests.dir/testing/Fetcher_testing.cpp.s
+.PHONY : testing/Fetcher_testing.cpp.s
 
 testing/FrameworkDetector_testing.obj: testing/FrameworkDetector_testing.cpp.obj
 .PHONY : testing/FrameworkDetector_testing.obj
@@ -950,6 +1006,30 @@ testing/URLvalidator_testing.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\URLValidatorTests.dir\build.make CMakeFiles/URLValidatorTests.dir/testing/URLvalidator_testing.cpp.s
 .PHONY : testing/URLvalidator_testing.cpp.s
 
+testing/renderengine_testing.obj: testing/renderengine_testing.cpp.obj
+.PHONY : testing/renderengine_testing.obj
+
+# target to build an object file
+testing/renderengine_testing.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/testing/renderengine_testing.cpp.obj
+.PHONY : testing/renderengine_testing.cpp.obj
+
+testing/renderengine_testing.i: testing/renderengine_testing.cpp.i
+.PHONY : testing/renderengine_testing.i
+
+# target to preprocess a source file
+testing/renderengine_testing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/testing/renderengine_testing.cpp.i
+.PHONY : testing/renderengine_testing.cpp.i
+
+testing/renderengine_testing.s: testing/renderengine_testing.cpp.s
+.PHONY : testing/renderengine_testing.s
+
+# target to generate assembly for a file
+testing/renderengine_testing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\renderengine_test.dir\build.make CMakeFiles/renderengine_test.dir/testing/renderengine_testing.cpp.s
+.PHONY : testing/renderengine_testing.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -965,6 +1045,7 @@ help:
 	@echo ... test
 	@echo ... CollectionsLib
 	@echo ... Crawler
+	@echo ... FetcherTests
 	@echo ... FrameworkDetectorTests
 	@echo ... HTMLParserTests
 	@echo ... KMPTests
@@ -983,6 +1064,7 @@ help:
 	@echo ... linkedlist_test
 	@echo ... parser_test
 	@echo ... redis_test
+	@echo ... renderengine_test
 	@echo ... test_app
 	@echo ... main.obj
 	@echo ... main.i
@@ -1020,6 +1102,9 @@ help:
 	@echo ... src/seenstorage.obj
 	@echo ... src/seenstorage.i
 	@echo ... src/seenstorage.s
+	@echo ... testing/Fetcher_testing.obj
+	@echo ... testing/Fetcher_testing.i
+	@echo ... testing/Fetcher_testing.s
 	@echo ... testing/FrameworkDetector_testing.obj
 	@echo ... testing/FrameworkDetector_testing.i
 	@echo ... testing/FrameworkDetector_testing.s
@@ -1044,6 +1129,9 @@ help:
 	@echo ... testing/URLvalidator_testing.obj
 	@echo ... testing/URLvalidator_testing.i
 	@echo ... testing/URLvalidator_testing.s
+	@echo ... testing/renderengine_testing.obj
+	@echo ... testing/renderengine_testing.i
+	@echo ... testing/renderengine_testing.s
 .PHONY : help
 
 

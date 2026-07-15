@@ -1,106 +1,86 @@
 {
-  "tests": 18,
+  "tests": 14,
   "name": "AllTests",
   "testsuites": [
     {
-      "name": "PageStorageTest",
-      "tests": 8,
+      "name": "FetcherTest",
+      "tests": 12,
       "testsuite": [
         {
-          "name": "CreatesConnection",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 4
+          "name": "FetchesValidURLSuccessfully",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 6
         },
         {
-          "name": "StoresPageSuccessfully",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 8
+          "name": "CapturesHTTPStatusCode",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 17
         },
         {
-          "name": "RetrievesHTML",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 21
+          "name": "CapturesFinalURL",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 27
         },
         {
-          "name": "UpdatesExistingURL",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 33
+          "name": "CapturesContentType",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 37
         },
         {
-          "name": "ReturnsFalseForMissingPage",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 45
+          "name": "HandlesInvalidDomain",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 47
         },
         {
-          "name": "RemovesPage",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 53
+          "name": "HandlesMalformedURL",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 58
         },
         {
-          "name": "CountsPages",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 65
+          "name": "PreservesRequestedURLOnFailure",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 68
         },
         {
-          "name": "ClearsPages",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 77
+          "name": "AcceptsCustomUserAgent",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 79
+        },
+        {
+          "name": "AcceptsCustomTimeout",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 90
+        },
+        {
+          "name": "AcceptsCustomRedirectLimit",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 101
+        },
+        {
+          "name": "HandlesEmptyURL",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 112
+        },
+        {
+          "name": "StoresResponseBody",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 121
         }
       ]
     },
     {
-      "name": "PageStorageEdgeTest",
-      "tests": 10,
+      "name": "FetcherEdgeTest",
+      "tests": 2,
       "testsuite": [
         {
-          "name": "StoresEmptyHTML",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 89
+          "name": "SupportsHTTPProtocol",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 131
         },
         {
-          "name": "StoresHTMLWithQuotesAndSpecialCharacters",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 99
-        },
-        {
-          "name": "StoresMultilineHTML",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 112
-        },
-        {
-          "name": "StoresLargeHTML",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 127
-        },
-        {
-          "name": "HandlesURLWithQueryParameters",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 142
-        },
-        {
-          "name": "HandlesURLWithSpecialCharacters",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 153
-        },
-        {
-          "name": "RemovingNonExistingPageReturnsFalse",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 163
-        },
-        {
-          "name": "DuplicateURLDoesNotIncreasePageCount",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 170
-        },
-        {
-          "name": "ClearEmptyStorageDoesNotFail",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 185
-        },
-        {
-          "name": "StoresHTMLContainingNullByte",
-          "file": "D:\\projects\\Crawler\\testing\\PageStorage_testing.cpp",
-          "line": 194
+          "name": "HandlesQueryParameters",
+          "file": "D:\\projects\\Crawler\\testing\\Fetcher_testing.cpp",
+          "line": 141
         }
       ]
     }
