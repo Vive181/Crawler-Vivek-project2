@@ -206,4 +206,42 @@ target_link_libraries(PageStorageTests PRIVATE
 
 gtest_discover_tests(PageStorageTests)
 
+# fetcher testing
 
+add_executable(FetcherTests
+    testing/Fetcher_testing.cpp
+    src/fetcher.cpp
+)
+
+target_include_directories(FetcherTests PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    C:/msys64/ucrt64/include
+)
+
+target_link_libraries(FetcherTests PRIVATE
+    GTest::gtest_main
+    PkgConfig::LIBCURL
+)
+
+gtest_discover_tests(FetcherTests)
+
+# render engine testing
+
+add_executable(renderengine_test
+    testing/renderengine_testing.cpp
+    src/renderengine.cpp
+)
+
+target_link_libraries(renderengine_test
+    PRIVATE
+    GTest::gtest_main
+    curl
+    Boost::system
+    ws2_32
+    mswsock
+)
+
+add_test(
+    NAME RenderEngineTest
+    COMMAND renderengine_test
+)
